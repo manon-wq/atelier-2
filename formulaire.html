@@ -6,83 +6,109 @@
     <title>Réserver ma séance | STUDENT MOVE</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Space+Grotesk:wght@700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
     <style>
+        /* --- Variables & Reset --- */
         :root {
-            --primary-gradient: linear-gradient(135deg, #FF3CAC 0%, #784BA0 50%, #2B86C5 100%);
+            --bg-black: #050505;
             --neon-green: #ADFF2F;
-            --dark-bg: #050505;
-            --glass: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --accent-purple: #784BA0;
+            --glass: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --gradient-main: linear-gradient(135deg, #FF3CAC 0%, #784BA0 50%, #2B86C5 100%);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         body {
+            background-color: var(--bg-black);
+            color: #ffffff;
             font-family: 'Outfit', sans-serif;
-            background-color: var(--dark-bg);
-            color: white;
             min-height: 100vh;
             display: flex;
             align-items: center;
-            background: radial-gradient(circle at top right, rgba(120, 75, 160, 0.15), transparent),
-                        radial-gradient(circle at bottom left, rgba(173, 255, 47, 0.05), transparent);
+            overflow-x: hidden;
+            /* Subtiles lueurs dynamiques en arrière-plan */
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(120, 75, 160, 0.12) 0%, transparent 35%),
+                radial-gradient(circle at 85% 85%, rgba(173, 255, 47, 0.05) 0%, transparent 35%);
         }
 
-        h1, h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 800; }
+        /* --- UI Components --- */
+        .booking-container {
+            max-width: 650px;
+            width: 100%;
+            margin: 2rem auto;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInPage 0.8s forwards;
+        }
 
-        /* --- Container & Card --- */
-        .booking-card {
+        @keyframes fadeInPage {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .glass-card {
             background: var(--glass);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
             border: 1px solid var(--glass-border);
-            border-radius: 30px;
+            border-radius: 32px;
             padding: 3rem;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
         }
 
-        /* --- Form Styling --- */
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        /* --- Form Elements --- */
         .form-label {
             font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: rgba(255,255,255,0.8);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 0.75rem;
             display: flex;
             align-items: center;
         }
 
         .form-label i {
-            margin-right: 10px;
+            margin-right: 8px;
             color: var(--neon-green);
         }
 
         .form-control, .form-select {
-            background: rgba(255, 255, 255, 0.07);
+            background: rgba(255, 255, 255, 0.03);
             border: 1px solid var(--glass-border);
-            border-radius: 15px;
-            padding: 12px 20px;
-            color: white;
-            transition: all 0.3s ease;
+            border-radius: 14px;
+            padding: 14px 18px;
+            color: #fff;
+            transition: var(--transition);
         }
 
+        /* Hack pour éviter le fond blanc natif des navigateurs */
         .form-control:focus, .form-select:focus {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.06);
             border-color: var(--neon-green);
-            box-shadow: 0 0 15px rgba(173, 255, 47, 0.2);
-            color: white;
+            box-shadow: 0 0 0 4px rgba(173, 255, 47, 0.1);
+            color: #fff;
         }
 
-        /* Custom Dropdown Arrow */
-        .form-select {
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='white' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+        .form-select option {
+            background-color: var(--bg-black);
+            color: white;
         }
 
         /* --- Checkbox Styling --- */
         .form-check-input {
-            background-color: rgba(255,255,255,0.1);
-            border: 1px solid var(--glass-border);
-            width: 1.2em;
-            height: 1.2em;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: var(--glass-border);
+            cursor: pointer;
         }
 
         .form-check-input:checked {
@@ -90,151 +116,121 @@
             border-color: var(--neon-green);
         }
 
-        /* --- Button Payment --- */
-        .btn-payment {
-            background: var(--primary-gradient);
-            color: white;
+        /* --- CTA Button --- */
+        .btn-submit {
+            background: var(--gradient-main);
             border: none;
-            padding: 18px 35px;
-            border-radius: 50px;
+            border-radius: 16px;
+            padding: 18px 30px;
+            color: #fff;
             font-weight: 800;
-            font-size: 1.1rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             width: 100%;
-            margin-top: 2rem;
-            box-shadow: 0 10px 30px rgba(120, 75, 160, 0.4);
+            margin-top: 1.5rem;
+            position: relative;
+            transition: var(--transition);
+            box-shadow: 0 10px 30px rgba(120, 75, 160, 0.3);
         }
 
-        .btn-payment:hover {
-            transform: scale(1.02) translateY(-5px);
-            box-shadow: 0 15px 40px rgba(173, 255, 47, 0.3);
-            color: white;
+        .btn-submit:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(255, 60, 172, 0.4);
+            filter: brightness(1.1);
         }
 
-        /* --- Decorations --- */
-        .back-link {
-            text-decoration: none;
-            color: var(--neon-green);
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            margin-bottom: 2rem;
-            transition: 0.3s;
+        .btn-submit:active {
+            transform: scale(0.98);
         }
 
-        .back-link:hover {
-            opacity: 0.8;
-            transform: translateX(-5px);
-        }
-
-        .step-indicator {
-            background: var(--neon-green);
-            color: black;
-            padding: 4px 12px;
-            border-radius: 8px;
-            font-weight: 900;
-            font-size: 0.8rem;
-            margin-bottom: 1rem;
-            display: inline-block;
-        }
-
-        /* RGPD Notice */
-        .privacy-notice {
-            font-size: 0.8rem;
-            color: rgba(255,255,255,0.4);
+        /* --- GDPR & Footer --- */
+        .privacy-note {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.4);
+            line-height: 1.5;
             margin-top: 1rem;
         }
 
-        @media (max-width: 768px) {
-            .booking-card { padding: 1.5rem; }
-            h1 { font-size: 1.8rem; }
+        .shield-icon {
+            color: var(--neon-green);
+            margin-right: 5px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 576px) {
+            .glass-card { padding: 1.5rem; }
+            h1 { font-size: 1.75rem; }
         }
     </style>
 </head>
 <body>
 
-    <div class="container py-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-7">
-                
-                <a href="#" class="back-link">
-                    <i class="fas fa-arrow-left me-2"></i> Retour à l'accueil
+    <div class="container">
+        <div class="booking-container">
+            <div class="text-center mb-4">
+                <a href="#" class="text-decoration-none" style="color: var(--neon-green); font-weight: 800;">
+                    <i class="fas fa-arrow-left me-2"></i> RETOUR
                 </a>
+            </div>
 
-                <div class="booking-card animate__animated animate__fadeInUp">
-                    <div class="text-center mb-5">
-                        <span class="step-indicator">ÉTAPE 1/1</span>
-                        <h1 class="mb-3">RÉSERVE TA <span style="color: var(--neon-green)">SÉANCE</span></h1>
-                        <p class="opacity-75">Remplis tes infos et prépare-toi à bouger. <br>Confirmation instantanée par email.</p>
-                    </div>
+            <div class="glass-card">
+                <div class="text-center mb-5">
+                    <h1 class="mb-2">RÉSERVE TA <span style="color: var(--neon-green);">SÉANCE</span></h1>
+                    <p class="opacity-50">Remplis tes infos et rejoins le mouvement.</p>
+                </div>
 
-                    <form id="bookingForm">
-                        <div class="row g-4">
-                            <div class="col-md-6">
-                                <label for="firstName" class="form-label">
-                                    <i class="fas fa-user"></i> Prénom
+                <form id="bookingForm">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <label class="form-label"><i class="fas fa-user"></i> Prénom</label>
+                            <input type="text" class="form-control" placeholder="Ex: Lucas" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label"><i class="fas fa-id-card"></i> Nom</label>
+                            <input type="text" class="form-control" placeholder="Ex: Martin" required>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label"><i class="fas fa-envelope"></i> Email Étudiant</label>
+                            <input type="email" class="form-control" placeholder="lucas.martin@etu.univ.fr" required>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label"><i class="fas fa-dumbbell"></i> Choisis ton sport</label>
+                            <select class="form-select" required>
+                                <option value="" disabled selected>Sélectionne une discipline...</option>
+                                <option value="skating">⛸️ Patinage Artistique — 8€</option>
+                                <option value="dance">💃 Danse Urbaine — 6€</option>
+                                <option value="running">🏃 Coaching Course — 5€</option>
+                                <option value="pilates">🧘 Pilates — 7€</option>
+                            </select>
+                        </div>
+
+                        <div class="col-12 mt-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="rgpdCheck" required>
+                                <label class="form-check-label small opacity-75" for="rgpdCheck">
+                                    J'accepte que mes données soient utilisées uniquement pour la gestion de ma réservation.
                                 </label>
-                                <input type="text" class="form-control" id="firstName" placeholder="Ex: Lucas" required>
                             </div>
-
-                            <div class="col-md-6">
-                                <label for="lastName" class="form-label">
-                                    <i class="fas fa-id-card"></i> Nom
-                                </label>
-                                <input type="text" class="form-control" id="lastName" placeholder="Ex: Dupont" required>
-                            </div>
-
-                            <div class="col-12">
-                                <label for="email" class="form-label">
-                                    <i class="fas fa-envelope"></i> Email Étudiant (@univ-...)
-                                </label>
-                                <input type="email" class="form-control" id="email" placeholder="lucas.dupont@etu.univ.fr" required>
-                            </div>
-
-                            <div class="col-12">
-                                <label for="course" class="form-label">
-                                    <i class="fas fa-dumbbell"></i> Choisis ton mood
-                                </label>
-                                <select class="form-select" id="course" required>
-                                    <option value="" selected disabled>Sélectionne une discipline...</option>
-                                    <option value="skating">⛸️ Patinage artistique (8€)</option>
-                                    <option value="dance">💃 Danse Urbaine (6€)</option>
-                                    <option value="running">🏃 Coaching course à pied (5€)</option>
-                                    <option value="pilates">🧘 Pilates Focus (7€)</option>
-                                </select>
-                            </div>
-
-                            <div class="col-12 mt-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="rgpdConsent" required>
-                                    <label class="form-check-label small" for="rgpdConsent">
-                                        J'accepte que mes données soient utilisées uniquement dans le cadre de la réservation de cours.
-                                    </label>
-                                </div>
-                                <p class="privacy-notice">
-                                    <i class="fas fa-shield-halved me-1"></i> Vos données personnelles sont chiffrées et ne seront jamais partagées avec des tiers.
-                                </p>
+                            <div class="privacy-note d-flex align-items-start">
+                                <i class="fas fa-shield-alt shield-icon mt-1"></i>
+                                <span>Tes données sont cryptées et ne seront jamais partagées avec des tiers. Sécurité garantie.</span>
                             </div>
                         </div>
 
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-payment">
-                                <i class="fas fa-credit-card me-2"></i> Procéder au paiement et confirmer ma séance
+                        <div class="col-12 mt-4">
+                            <button type="submit" class="btn btn-submit">
+                                <i class="fas fa-credit-card me-2"></i> Procéder au paiement
                             </button>
-                            <div class="mt-3 opacity-50 small">
-                                <i class="fab fa-stripe me-2"></i>
-                                <i class="fab fa-apple-pay me-2"></i>
-                                <i class="fab fa-google-pay"></i>
-                            </div>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
+            </div>
 
-                <div class="text-center mt-4 opacity-50 small">
-                    © 2026 STUDENTMOVE. Réservation 100% sécurisée.
-                </div>
+            <div class="text-center mt-4 opacity-25 small">
+                © 2026 STUDENT MOVE. TOUS DROITS RÉSERVÉS.
             </div>
         </div>
     </div>
@@ -242,13 +238,28 @@
     <script>
         document.getElementById('bookingForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const btn = e.target.querySelector('button');
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Redirection vers Stripe...';
-            btn.style.opacity = '0.7';
+            
+            // Animation du bouton au clic
+            const btn = this.querySelector('.btn-submit');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> REDIRECTION...';
+            btn.style.opacity = '0.8';
+            
+            // Simulation de redirection vers Stripe
             setTimeout(() => {
-                alert('Félicitations ! Redirection vers la plateforme de paiement sécurisée...');
-            }, 1000);
+                alert('Redirection sécurisée vers la page de paiement Stripe...');
+                // window.location.href = "URL_STRIPE_ICI";
+            }, 800);
         });
+
+        // Micro-interaction : effet parallaxe léger sur la carte au mouvement de la souris (Desktop uniquement)
+        if (window.innerWidth > 992) {
+            const card = document.querySelector('.glass-card');
+            document.addEventListener('mousemove', (e) => {
+                const x = (window.innerWidth / 2 - e.pageX) / 50;
+                const y = (window.innerHeight / 2 - e.pageY) / 50;
+                card.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+            });
+        }
     </script>
 </body>
 </html>
