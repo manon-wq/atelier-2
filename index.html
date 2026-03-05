@@ -26,7 +26,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            cursor: none !important; /* On cache le curseur par défaut pour le custom */
+            cursor: none !important; /* Curseur custom activé */
         }
 
         body {
@@ -118,7 +118,6 @@
             text-decoration: none;
         }
 
-        /* Bouton "Comment ça marche" optimisé */
         .btn-outline-custom {
             border: 2px solid white;
             color: white;
@@ -127,9 +126,9 @@
             font-weight: 800;
             text-transform: uppercase;
             text-decoration: none;
-            display: inline-flex; /* Flex alignment */
-            align-items: center; /* Vertical center */
-            justify-content: center; /* Horizontal center */
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             transition: all 0.3s ease;
             min-width: 250px;
             background: transparent;
@@ -178,7 +177,7 @@
 
         .text-neon { color: var(--accent); text-shadow: 0 0 20px rgba(173, 255, 47, 0.3); }
 
-        /* --- Sections --- */
+        /* --- Offers Section Styling --- */
         #offers .card-icon {
             font-size: 4rem;
             margin-bottom: 1.5rem;
@@ -251,9 +250,7 @@
                 </p>
                 <div class="d-flex flex-column flex-md-row justify-content-center gap-4 align-items-center">
                     <a href="formulaire.html" class="btn btn-glow">Trouver une séance</a>
-                    <a href="#concept" class="btn btn-outline-custom">
-                        Comment ça marche ?
-                    </a>
+                    <a href="#concept" class="btn btn-outline-custom">Comment ça marche ?</a>
                 </div>
             </div>
         </div>
@@ -287,7 +284,7 @@
         <div class="container py-5">
             <h2 class="text-center display-4 fw-bold mb-5">CHOISIS <span class="text-neon">TA VIBE</span></h2>
             <div class="row g-4">
-                <div class="col-md-4 reveal-up">
+                <div class="col-md-6 col-lg-3 reveal-up">
                     <div class="glass-card text-center h-100">
                         <span class="card-icon">⛸️</span>
                         <h3>Patinage</h3>
@@ -296,7 +293,7 @@
                         <button class="btn btn-glow w-100">Réserver</button>
                     </div>
                 </div>
-                <div class="col-md-4 reveal-up" style="transition-delay: 0.1s;">
+                <div class="col-md-6 col-lg-3 reveal-up" style="transition-delay: 0.1s;">
                     <div class="glass-card text-center h-100">
                         <span class="card-icon">🏃</span>
                         <h3>Running</h3>
@@ -305,12 +302,21 @@
                         <button class="btn btn-glow w-100">Réserver</button>
                     </div>
                 </div>
-                <div class="col-md-4 reveal-up" style="transition-delay: 0.2s;">
+                <div class="col-md-6 col-lg-3 reveal-up" style="transition-delay: 0.2s;">
                     <div class="glass-card text-center h-100">
                         <span class="card-icon">🧘</span>
                         <h3>Pilates</h3>
                         <p class="text-secondary">Renforcement profond et détente.</p>
                         <div class="price-tag my-3">10€</div>
+                        <button class="btn btn-glow w-100">Réserver</button>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 reveal-up" style="transition-delay: 0.3s;">
+                    <div class="glass-card text-center h-100">
+                        <span class="card-icon">🩰</span>
+                        <h3>Danse</h3>
+                        <p class="text-secondary">Cours dynamiques pour améliorer ton rythme.</p>
+                        <div class="price-tag my-3">9€</div>
                         <button class="btn btn-glow w-100">Réserver</button>
                     </div>
                 </div>
@@ -330,7 +336,7 @@
                     </h2>
                     <div id="f1" class="accordion-collapse collapse" data-bs-parent="#studentFAQ">
                         <div class="accordion-body opacity-75">
-                            Oui, lors de ton arrivée à la salle, une carte étudiante en cours de validité (ou certificat de scolarité) te sera demandée.
+                            Oui, lors de ton arrivée à la salle, une carte étudiante en cours de validité te sera demandée.
                         </div>
                     </div>
                 </div>
@@ -342,7 +348,7 @@
                     </h2>
                     <div id="f2" class="accordion-collapse collapse" data-bs-parent="#studentFAQ">
                         <div class="accordion-body opacity-75">
-                            Bien sûr ! Tu peux annuler jusqu'à 12h avant la séance pour un remboursement intégral sur ton compte StudentMove.
+                            Bien sûr ! Jusqu'à 12h avant la séance pour un remboursement intégral.
                         </div>
                     </div>
                 </div>
@@ -351,35 +357,25 @@
     </section>
 
     <footer class="py-5 border-top border-secondary">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-6 text-center text-md-start">
-                    <h3 class="fw-bold">STUDENT<span class="text-neon">MOVE.</span></h3>
-                    <p class="text-secondary mt-2">Le sport sans limites pour la Gen Z.</p>
-                </div>
-                <div class="col-md-6 text-center text-md-end">
-                    <div class="d-flex justify-content-center justify-content-md-end gap-3">
-                        <a href="#" class="text-white fs-4"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="#" class="text-white fs-4"><i class="fa-brands fa-tiktok"></i></a>
-                    </div>
-                </div>
+        <div class="container text-center">
+            <h3 class="fw-bold">STUDENT<span class="text-neon">MOVE.</span></h3>
+            <div class="d-flex justify-content-center gap-3 my-4">
+                <a href="#" class="text-white fs-4"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="text-white fs-4"><i class="fa-brands fa-tiktok"></i></a>
             </div>
-            <div class="text-center mt-5 text-secondary small">
-                © 2026 StudentMove. Tous droits réservés. 
-            </div>
+            <p class="text-secondary small">© 2026 StudentMove. Tous droits réservés.</p>
         </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // --- Custom Cursor Logic ---
+        // --- Custom Cursor ---
         const cursor = document.getElementById('custom-cursor');
         document.addEventListener('mousemove', (e) => {
             cursor.style.left = e.clientX + 'px';
             cursor.style.top = e.clientY + 'px';
         });
 
-        // Change cursor emoji on hover of buttons
         const interactives = document.querySelectorAll('a, button, .accordion-button');
         interactives.forEach(el => {
             el.addEventListener('mouseenter', () => {
@@ -392,26 +388,22 @@
             });
         });
 
-        // --- Floating Emojis Logic ---
-        const emojiLibrary = ['⛸️', '🩰', '🏃', '🧘', '💪', '⚡', '🔥', '🎾'];
+        // --- Floating Emojis ---
+        const emojiLibrary = ['⛸️', '🩰', '🏃', '🧘', '💪', '⚡', '🔥'];
         const bgContainer = document.getElementById('emoji-bg');
-        const emojiCount = 22;
+        const emojiCount = 20;
 
         for (let i = 0; i < emojiCount; i++) {
             const span = document.createElement('span');
             span.className = 'floating-emoji';
             span.innerText = emojiLibrary[Math.floor(Math.random() * emojiLibrary.length)];
-            
-            // Random styling
             const size = Math.random() * (60 - 30) + 30;
             const startX = Math.random() * 100;
             const startY = Math.random() * 100;
-            const duration = Math.random() * (30 - 15) + 15;
+            const duration = Math.random() * (25 - 15) + 15;
             const delay = Math.random() * -20;
-            
-            // Random movement targets
-            const moveX = (Math.random() - 0.5) * 400;
-            const moveY = (Math.random() - 0.5) * 400;
+            const moveX = (Math.random() - 0.5) * 300;
+            const moveY = (Math.random() - 0.5) * 300;
             const rotation = (Math.random() - 0.5) * 720;
 
             span.style.fontSize = `${size}px`;
@@ -420,14 +412,12 @@
             span.style.setProperty('--x', `${moveX}px`);
             span.style.setProperty('--y', `${moveY}px`);
             span.style.setProperty('--r', `${rotation}deg`);
-            
             span.style.animation = `floatAnimation ${duration}s linear infinite`;
             span.style.animationDelay = `${delay}s`;
-
             bgContainer.appendChild(span);
         }
 
-        // --- Scroll Animations ---
+        // --- ScrollReveal ---
         ScrollReveal().reveal('.reveal-up', { distance: '50px', duration: 1000, origin: 'bottom', interval: 200 });
         ScrollReveal().reveal('.reveal-left', { distance: '50px', duration: 1000, origin: 'left' });
         ScrollReveal().reveal('.reveal-right', { distance: '50px', duration: 1000, origin: 'right' });
