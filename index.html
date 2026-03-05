@@ -6,34 +6,60 @@
     <title>STUDENT MOVE | Le sport sans se ruiner</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <script src="https://unpkg.com/scrollreveal"></script>
 
     <style>
         :root {
-            --primary-gradient: linear-gradient(135deg, #FF3CAC 0%, #784BA0 50%, #2B86C5 100%);
-            --neon-green: #ADFF2F;
-            --dark-bg: #050505;
-            --glass: rgba(255, 255, 255, 0.05);
+            --primary: #FF3CAC;
+            --secondary: #784BA0;
+            --accent: #ADFF2F;
+            --dark: #050505;
+            --glass: rgba(255, 255, 255, 0.03);
             --glass-border: rgba(255, 255, 255, 0.1);
+            --gradient: linear-gradient(135deg, #FF3CAC 0%, #784BA0 50%, #2B86C5 100%);
         }
 
-        /* --- Global Reset --- */
-        body {
-            font-family: 'Outfit', sans-serif;
-            background-color: var(--dark-bg);
-            color: white;
-            overflow-x: hidden;
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+            cursor: none !important; /* On cache le curseur par défaut pour le custom */
         }
 
-        h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; }
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--dark);
+            color: white;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
 
-        /* --- Floating Emoji System --- */
-        .emoji-background {
+        /* --- Custom Emoji Cursor --- */
+        #custom-cursor {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            font-size: 32px;
+            pointer-events: none;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.1s ease-out;
+            filter: drop-shadow(0 0 10px rgba(173, 255, 47, 0.5));
+            animation: cursorBounce 1.5s infinite ease-in-out;
+        }
+
+        @keyframes cursorBounce {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.2) rotate(10deg); }
+        }
+
+        /* --- Floating Emoji Background --- */
+        .bg-container {
             position: fixed;
             top: 0;
             left: 0;
@@ -46,149 +72,168 @@
 
         .floating-emoji {
             position: absolute;
-            font-size: var(--size);
-            opacity: 0.15;
-            filter: blur(1px);
-            animation: float-around var(--duration) linear infinite;
-            top: var(--top);
-            left: var(--left);
+            user-select: none;
+            will-change: transform, opacity;
+            filter: saturate(1.2);
         }
 
-        @keyframes float-around {
-            0% {
-                transform: translate(0, 0) rotate(0deg);
-                opacity: 0;
-            }
-            10% { opacity: 0.15; }
-            90% { opacity: 0.15; }
-            100% {
-                transform: translate(var(--move-x), var(--move-y)) rotate(360deg);
-                opacity: 0;
-            }
+        @keyframes floatAnimation {
+            0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translate(var(--x), var(--y)) rotate(var(--r)); opacity: 0; }
         }
 
-        /* --- UI Elements --- */
-        .glass-card {
-            background: var(--glass);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .glass-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--neon-green);
-            box-shadow: 0 15px 30px rgba(173, 255, 47, 0.1);
-        }
-
-        .btn-glow {
-            background: var(--primary-gradient);
-            color: white;
-            border: none;
-            padding: 14px 32px;
-            border-radius: 50px;
-            font-weight: 700;
-            transition: 0.3s;
-            box-shadow: 0 5px 15px rgba(120, 75, 160, 0.4);
-        }
-
-        .btn-glow:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 25px rgba(173, 255, 47, 0.4);
-            color: white;
-        }
-
-        .badge-student {
-            background: var(--neon-green);
-            color: black;
-            font-weight: 800;
-            padding: 6px 18px;
-            border-radius: 12px;
-            transform: rotate(-2deg);
-            display: inline-block;
-            box-shadow: 5px 5px 0px rgba(0,0,0,1);
-        }
-
-        .text-gradient {
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* --- Navigation --- */
+        /* --- UI Components --- */
         .navbar {
-            padding: 20px 0;
-            background: rgba(5, 5, 5, 0.7) !important;
-            backdrop-filter: blur(15px);
+            background: rgba(5, 5, 5, 0.8) !important;
+            backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--glass-border);
+            padding: 1.5rem 0;
         }
 
-        /* --- Sections --- */
         .hero-section {
             min-height: 100vh;
             display: flex;
             align-items: center;
-            position: relative;
+            justify-content: center;
             padding-top: 100px;
+            position: relative;
         }
 
-        .sport-icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
+        .btn-glow {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            padding: 18px 35px;
+            border-radius: 100px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(255, 60, 172, 0.3);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+
+        /* Bouton "Comment ça marche" optimisé */
+        .btn-outline-custom {
+            border: 2px solid white;
+            color: white;
+            padding: 18px 35px;
+            border-radius: 100px;
+            font-weight: 800;
+            text-transform: uppercase;
+            text-decoration: none;
+            display: inline-flex; /* Flex alignment */
+            align-items: center; /* Vertical center */
+            justify-content: center; /* Horizontal center */
+            transition: all 0.3s ease;
+            min-width: 250px;
+            background: transparent;
+        }
+
+        .btn-outline-custom:hover {
+            background: white;
+            color: var(--dark);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.1);
+        }
+
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 2.5rem;
+            transition: 0.4s ease;
+        }
+
+        .glass-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .badge-student {
+            background: var(--accent);
+            color: black;
+            font-weight: 900;
+            padding: 8px 20px;
+            border-radius: 12px;
+            transform: rotate(-2deg);
+            display: inline-block;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 800;
+            font-size: clamp(3rem, 8vw, 6rem);
+            line-height: 0.9;
+        }
+
+        .text-neon { color: var(--accent); text-shadow: 0 0 20px rgba(173, 255, 47, 0.3); }
+
+        /* --- Sections --- */
+        #offers .card-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
             display: block;
         }
 
         .price-tag {
-            font-size: 1.8rem;
+            font-size: 2rem;
             font-weight: 900;
-            color: var(--neon-green);
+            color: var(--accent);
         }
 
         .accordion-item {
             background: transparent !important;
-            border: 1px solid var(--glass-border) !important;
-            margin-bottom: 10px;
-            border-radius: 15px !important;
-            overflow: hidden;
+            border: none;
+            border-bottom: 1px solid var(--glass-border);
+            margin-bottom: 1rem;
         }
 
         .accordion-button {
             background: transparent !important;
             color: white !important;
+            font-weight: 700;
+            font-size: 1.2rem;
+            padding: 1.5rem 0;
             box-shadow: none !important;
         }
 
-        footer {
-            background: rgba(0,0,0,0.5);
-        }
-
-        /* Mobile Adjustments */
+        /* --- Responsive --- */
         @media (max-width: 768px) {
-            .display-1 { font-size: 3.5rem; }
-            .floating-emoji { opacity: 0.1; }
+            * { cursor: auto !important; }
+            #custom-cursor { display: none; }
+            .btn-outline-custom, .btn-glow { width: 100%; }
         }
     </style>
 </head>
 <body>
 
-    <div class="emoji-background" id="emoji-container">
-        </div>
+    <div id="custom-cursor">🏃</div>
+
+    <div class="bg-container" id="emoji-bg"></div>
 
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container">
-            <a class="navbar-brand fw-bold fs-3" href="#">STUDENT<span style="color: var(--neon-green)">MOVE.</span></a>
+            <a class="navbar-brand fw-bold fs-3" href="#">STUDENT<span class="text-neon">MOVE.</span></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center">
-                    <li class="nav-item"><a class="nav-link mx-2" href="#concept">Le Concept</a></li>
-                    <li class="nav-item"><a class="nav-link mx-2" href="#classes">Nos Séances</a></li>
-                    <li class="nav-item"><a class="nav-link mx-2" href="#faq">FAQ</a></li>
-                    <li class="nav-item ms-lg-4">
-                        <a href="#booking" class="btn btn-sm btn-glow">Réserver</a>
+                    <li class="nav-item"><a class="nav-link px-3" href="#concept">Le Concept</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="#offers">Les Offres</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="#faq">FAQ</a></li>
+                    <li class="nav-item ms-lg-3 mt-3 mt-lg-0">
+                        <a href="#booking" class="btn btn-glow py-2 px-4">Réserver</a>
                     </li>
                 </ul>
             </div>
@@ -197,98 +242,76 @@
 
     <section class="hero-section">
         <div class="container text-center">
-            <div class="animate__animated animate__fadeIn">
-                <span class="badge-student mb-4 text-uppercase">Offre Exclusive : -50% avec ta carte étudiante</span>
-                <h1 class="display-1 fw-black mb-4">TON GYM, <br><span class="text-gradient">TON BUDGET,</span> <br>TES RÈGLES.</h1>
-                <p class="lead mb-5 mx-auto opacity-75" style="max-width: 700px;">
-                    Oublie les abonnements qui vident ton compte. Accède aux meilleurs spots de sport avec une flexibilité totale, pensée pour la vie étudiante.
+            <div class="reveal-zoom">
+                <span class="badge-student">PROMO : -50% SUR TA PREMIÈRE SÉANCE ⚡</span>
+                <h1>TRANSFORME <br><span class="text-neon">TON CORPS,</span> <br>PAS TON COMPTE.</h1>
+                <p class="lead mt-4 mb-5 opacity-75 mx-auto" style="max-width: 700px; font-size: 1.3rem;">
+                    Accède aux meilleures salles de sport sans abonnement contraignant. 
+                    Paye à la séance, flexibilité totale pour les étudiants.
                 </p>
-                <div class="d-flex flex-column flex-sm-row justify-content-center gap-3">
-                    <a href="#classes" class="btn btn-glow btn-lg px-5">Je réserve ma séance</a>
-                    <a href="#concept" class="btn btn-outline-light btn-lg rounded-pill px-5">Comment ça marche ?</a>
+                <div class="d-flex flex-column flex-md-row justify-content-center gap-4 align-items-center">
+                    <a href="#offers" class="btn btn-glow">Trouver une séance</a>
+                    <a href="#concept" class="btn btn-outline-custom">
+                        Comment ça marche ?
+                    </a>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="concept" class="py-5">
+    <section id="concept" class="py-5 mt-5">
         <div class="container py-5">
             <div class="row align-items-center g-5">
                 <div class="col-lg-6 reveal-left">
-                    <h2 class="display-4 mb-4">Zéro engagement. <br><span class="text-gradient">100% Flexibilité.</span></h2>
-                    <p class="text-secondary fs-5">Ta vie bouge, ton sport aussi. Entre les révisions de dernière minute et les soirées imprévues, on ne t'enferme pas dans un contrat.</p>
-                    <div class="mt-4">
-                        <div class="d-flex align-items-center mb-3">
-                            <i class="fa-solid fa-bolt text-warning me-3 fs-4"></i>
-                            <span class="fs-5">Réserve à la séance, sans frais cachés.</span>
-                        </div>
-                        <div class="d-flex align-items-center mb-3">
-                            <i class="fa-solid fa-calendar-day text-info me-3 fs-4"></i>
-                            <span class="fs-5">Large choix de créneaux (Matin / Midi / Soir).</span>
-                        </div>
-                        <div class="d-flex align-items-center">
-                            <i class="fa-solid fa-wallet text-success me-3 fs-4"></i>
-                            <span class="fs-5">Le prix d'un café pour une séance premium.</span>
-                        </div>
-                    </div>
+                    <h2 class="display-4 fw-bold mb-4">Le sport, <br><span class="text-neon">en mode liberté.</span></h2>
+                    <p class="fs-5 text-secondary">Fini les contrats de 12 mois impossibles à résilier. StudentMove s'adapte à ton emploi du temps de ministre.</p>
+                    <ul class="list-unstyled mt-4">
+                        <li class="mb-3 fs-5"><i class="fa-solid fa-circle-check text-neon me-3"></i> Sans aucun engagement</li>
+                        <li class="mb-3 fs-5"><i class="fa-solid fa-circle-check text-neon me-3"></i> Tarifs exclusifs carte étudiante</li>
+                        <li class="mb-3 fs-5"><i class="fa-solid fa-circle-check text-neon me-3"></i> Réservation en 3 clics</li>
+                    </ul>
                 </div>
                 <div class="col-lg-6 reveal-right">
-                    <div class="glass-card p-5 text-center">
-                        <h3 class="mb-4">Dépêche-toi ! ⚡</h3>
-                        <div class="progress mb-4" style="height: 12px; background: rgba(255,255,255,0.05); border-radius: 10px;">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 88%; background: var(--primary-gradient);"></div>
-                        </div>
-                        <p class="small text-uppercase fw-bold text-white-50">88% des créneaux de la semaine sont déjà réservés</p>
-                        <hr class="opacity-10 my-4">
-                        <p class="mb-0">Rejoins +2,500 étudiants cette semaine.</p>
+                    <div class="glass-card text-center">
+                        <div class="display-1 mb-3 text-neon fw-bold">12€</div>
+                        <p class="text-uppercase fw-bold tracking-widest">Prix moyen d'une séance premium</p>
+                        <hr class="border-secondary opacity-25">
+                        <p class="mb-0">Valable dans +50 salles partenaires à travers la France.</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="classes" class="py-5">
-        <div class="container">
-            <div class="text-center mb-5">
-                <h2 class="display-3">CHOISIS TON <span style="color: var(--neon-green)">MOOD.</span></h2>
-                <p class="text-secondary fs-5">Pas de pression, juste de la progression et du fun.</p>
-            </div>
-            
+    <section id="offers" class="py-5">
+        <div class="container py-5">
+            <h2 class="text-center display-4 fw-bold mb-5">CHOISIS <span class="text-neon">TA VIBE</span></h2>
             <div class="row g-4">
-                <div class="col-md-6 col-lg-3 reveal-up">
-                    <div class="glass-card p-4 h-100 text-center">
-                        <span class="sport-icon">⛸️</span>
-                        <h3>Patinage Artistique</h3>
-                        <p class="small opacity-75">Glisse, équilibre et élégance. Parfait pour se vider la tête.</p>
-                        <div class="price-tag mb-3">8€ <small class="text-decoration-line-through text-muted fs-6">16€</small></div>
-                        <button class="btn btn-outline-light w-100 rounded-pill">Réserver</button>
+                <div class="col-md-4 reveal-up">
+                    <div class="glass-card text-center h-100">
+                        <span class="card-icon">⛸️</span>
+                        <h3>Patinage</h3>
+                        <p class="text-secondary">Domine la glace avec style et grâce.</p>
+                        <div class="price-tag my-3">8€</div>
+                        <button class="btn btn-glow w-100">Réserver</button>
                     </div>
                 </div>
-                <div class="col-md-6 col-lg-3 reveal-up" style="transition-delay: 0.1s;">
-                    <div class="glass-card p-4 h-100 text-center">
-                        <span class="sport-icon">💃</span>
-                        <h3>Danse Urbaine</h3>
-                        <p class="small opacity-75">Cardio explosif sur les meilleurs sons du moment.</p>
-                        <div class="price-tag mb-3">6€ <small class="text-decoration-line-through text-muted fs-6">12€</small></div>
-                        <button class="btn btn-outline-light w-100 rounded-pill">Réserver</button>
+                <div class="col-md-4 reveal-up" style="transition-delay: 0.1s;">
+                    <div class="glass-card text-center h-100">
+                        <span class="card-icon">🏃</span>
+                        <h3>Running</h3>
+                        <p class="text-secondary">Séances de groupe coachées en ville.</p>
+                        <div class="price-tag my-3">5€</div>
+                        <button class="btn btn-glow w-100">Réserver</button>
                     </div>
                 </div>
-                <div class="col-md-6 col-lg-3 reveal-up" style="transition-delay: 0.2s;">
-                    <div class="glass-card p-4 h-100 text-center">
-                        <span class="sport-icon">🏃</span>
-                        <h3>Coaching Running</h3>
-                        <p class="small opacity-75">Explose tes records avec notre team de runners.</p>
-                        <div class="price-tag mb-3">5€ <small class="text-decoration-line-through text-muted fs-6">10€</small></div>
-                        <button class="btn btn-outline-light w-100 rounded-pill">Réserver</button>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3 reveal-up" style="transition-delay: 0.3s;">
-                    <div class="glass-card p-4 h-100 text-center">
-                        <span class="sport-icon">🧘</span>
-                        <h3>Pilates Focus</h3>
-                        <p class="small opacity-75">Détends ton dos après 8h de cours assis en amphi.</p>
-                        <div class="price-tag mb-3">7€ <small class="text-decoration-line-through text-muted fs-6">14€</small></div>
-                        <button class="btn btn-outline-light w-100 rounded-pill">Réserver</button>
+                <div class="col-md-4 reveal-up" style="transition-delay: 0.2s;">
+                    <div class="glass-card text-center h-100">
+                        <span class="card-icon">🧘</span>
+                        <h3>Pilates</h3>
+                        <p class="text-secondary">Renforcement profond et détente.</p>
+                        <div class="price-tag my-3">10€</div>
+                        <button class="btn btn-glow w-100">Réserver</button>
                     </div>
                 </div>
             </div>
@@ -297,39 +320,29 @@
 
     <section id="faq" class="py-5">
         <div class="container py-5">
-            <h2 class="text-center mb-5 display-5">Des questions ? <br><span class="text-gradient">On a les réponses.</span></h2>
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <div class="accordion accordion-flush" id="faqAccordion">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q1">
-                                    Comment prouver que je suis étudiant ?
-                                </button>
-                            </h2>
-                            <div id="q1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                                <div class="accordion-body opacity-75">C'est super simple : télécharge une photo de ta carte étudiante lors de ta première réservation. On valide ça en moins de 2 minutes !</div>
-                            </div>
+            <h2 class="mb-5 fw-bold">FAQ <span class="text-neon">QUESTIONS.</span></h2>
+            <div class="accordion" id="studentFAQ">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f1">
+                            Dois-je montrer ma carte étudiante ?
+                        </button>
+                    </h2>
+                    <div id="f1" class="accordion-collapse collapse" data-bs-parent="#studentFAQ">
+                        <div class="accordion-body opacity-75">
+                            Oui, lors de ton arrivée à la salle, une carte étudiante en cours de validité (ou certificat de scolarité) te sera demandée.
                         </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q2">
-                                    Puis-je annuler ma séance ?
-                                </button>
-                            </h2>
-                            <div id="q2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                                <div class="accordion-body opacity-75">Oui ! Tu peux annuler sans frais jusqu'à 12h avant le début de la séance. Crédit remboursé immédiatement sur ton compte.</div>
-                            </div>
-                        </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q3">
-                                    Y a-t-il des douches sur place ?
-                                </button>
-                            </h2>
-                            <div id="q3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                                <div class="accordion-body opacity-75">Tous nos partenaires disposent de vestiaires et de douches propres. N'oublie juste pas ta serviette !</div>
-                            </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f2">
+                            Puis-je annuler une séance ?
+                        </button>
+                    </h2>
+                    <div id="f2" class="accordion-collapse collapse" data-bs-parent="#studentFAQ">
+                        <div class="accordion-body opacity-75">
+                            Bien sûr ! Tu peux annuler jusqu'à 12h avant la séance pour un remboursement intégral sur ton compte StudentMove.
                         </div>
                     </div>
                 </div>
@@ -337,68 +350,88 @@
         </div>
     </section>
 
-    <section id="booking" class="py-5 text-center">
-        <div class="container py-5">
-            <div class="glass-card p-5 animate__animated animate__pulse animate__infinite animate__slow">
-                <h2 class="display-4 fw-bold mb-4">PRÊT À <span style="color: var(--neon-green)">BOUGER ?</span></h2>
-                <p class="fs-5 mb-5 opacity-75">Rejoins la team et profite des tarifs réduits dès maintenant.</p>
-                <a href="#" class="btn btn-glow btn-lg px-5 py-3">Je m'inscris gratuitement</a>
-                <div class="mt-4">
-                    <span class="small opacity-50"><i class="fa-solid fa-lock me-2"></i> Paiement sécurisé via Stripe & Apple Pay</span>
+    <footer class="py-5 border-top border-secondary">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start">
+                    <h3 class="fw-bold">STUDENT<span class="text-neon">MOVE.</span></h3>
+                    <p class="text-secondary mt-2">Le sport sans limites pour la Gen Z.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <div class="d-flex justify-content-center justify-content-md-end gap-3">
+                        <a href="#" class="text-white fs-4"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="text-white fs-4"><i class="fa-brands fa-tiktok"></i></a>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <footer class="py-5 border-top border-secondary mt-5">
-        <div class="container text-center">
-            <div class="mb-4">
-                <a href="#" class="text-white mx-3 fs-4"><i class="fa-brands fa-instagram"></i></a>
-                <a href="#" class="text-white mx-3 fs-4"><i class="fa-brands fa-tiktok"></i></a>
-                <a href="#" class="text-white mx-3 fs-4"><i class="fa-brands fa-twitter"></i></a>
+            <div class="text-center mt-5 text-secondary small">
+                © 2026 StudentMove. Tous droits réservés. 
             </div>
-            <p class="small text-secondary mb-0">© 2026 STUDENTMOVE. Fait avec passion pour la Gen Z par des étudiants.</p>
         </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // --- Emoji Generator ---
-        const emojis = ['⛸️', '🩰', '🏃', '🧘', '💪', '⭐', '🎧', '⚡', '🔥'];
-        const container = document.getElementById('emoji-container');
-        const emojiCount = 25;
+        // --- Custom Cursor Logic ---
+        const cursor = document.getElementById('custom-cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // Change cursor emoji on hover of buttons
+        const interactives = document.querySelectorAll('a, button, .accordion-button');
+        interactives.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.innerText = '💪';
+                cursor.style.transform = 'scale(1.5)';
+            });
+            el.addEventListener('mouseleave', () => {
+                cursor.innerText = '🏃';
+                cursor.style.transform = 'scale(1)';
+            });
+        });
+
+        // --- Floating Emojis Logic ---
+        const emojiLibrary = ['⛸️', '🩰', '🏃', '🧘', '💪', '⚡', '🔥', '🎾'];
+        const bgContainer = document.getElementById('emoji-bg');
+        const emojiCount = 22;
 
         for (let i = 0; i < emojiCount; i++) {
             const span = document.createElement('span');
             span.className = 'floating-emoji';
-            span.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+            span.innerText = emojiLibrary[Math.floor(Math.random() * emojiLibrary.length)];
             
-            // Random properties
-            const size = Math.floor(Math.random() * 20 + 20) + 'px';
-            const top = Math.floor(Math.random() * 100) + '%';
-            const left = Math.floor(Math.random() * 100) + '%';
-            const duration = Math.floor(Math.random() * 20 + 15) + 's';
-            const delay = Math.floor(Math.random() * 10) * -1 + 's';
+            // Random styling
+            const size = Math.random() * (60 - 30) + 30;
+            const startX = Math.random() * 100;
+            const startY = Math.random() * 100;
+            const duration = Math.random() * (30 - 15) + 15;
+            const delay = Math.random() * -20;
             
-            // Random movement vectors
-            const moveX = (Math.random() * 400 - 200) + 'px';
-            const moveY = (Math.random() * 400 - 200) + 'px';
+            // Random movement targets
+            const moveX = (Math.random() - 0.5) * 400;
+            const moveY = (Math.random() - 0.5) * 400;
+            const rotation = (Math.random() - 0.5) * 720;
 
-            span.style.setProperty('--size', size);
-            span.style.setProperty('--top', top);
-            span.style.setProperty('--left', left);
-            span.style.setProperty('--duration', duration);
-            span.style.setProperty('--move-x', moveX);
-            span.style.setProperty('--move-y', moveY);
-            span.style.animationDelay = delay;
+            span.style.fontSize = `${size}px`;
+            span.style.left = `${startX}%`;
+            span.style.top = `${startY}%`;
+            span.style.setProperty('--x', `${moveX}px`);
+            span.style.setProperty('--y', `${moveY}px`);
+            span.style.setProperty('--r', `${rotation}deg`);
+            
+            span.style.animation = `floatAnimation ${duration}s linear infinite`;
+            span.style.animationDelay = `${delay}s`;
 
-            container.appendChild(span);
+            bgContainer.appendChild(span);
         }
 
-        // --- Animations on Scroll ---
-        ScrollReveal().reveal('.reveal-up', { distance: '60px', duration: 1000, origin: 'bottom', interval: 150 });
-        ScrollReveal().reveal('.reveal-left', { distance: '60px', duration: 1000, origin: 'left' });
-        ScrollReveal().reveal('.reveal-right', { distance: '60px', duration: 1000, origin: 'right' });
+        // --- Scroll Animations ---
+        ScrollReveal().reveal('.reveal-up', { distance: '50px', duration: 1000, origin: 'bottom', interval: 200 });
+        ScrollReveal().reveal('.reveal-left', { distance: '50px', duration: 1000, origin: 'left' });
+        ScrollReveal().reveal('.reveal-right', { distance: '50px', duration: 1000, origin: 'right' });
+        ScrollReveal().reveal('.reveal-zoom', { scale: 0.85, duration: 1200 });
     </script>
 </body>
 </html>
