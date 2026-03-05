@@ -35,7 +35,7 @@
                 radial-gradient(circle at 90% 90%, rgba(173, 255, 47, 0.05) 0%, transparent 40%);
         }
 
-        /* --- Mise en page & Cartes --- */
+        /* --- Animations & Cards --- */
         .fade-in {
             animation: fadeIn 0.8s ease-out forwards;
         }
@@ -56,7 +56,6 @@
             height: 100%;
         }
 
-        /* --- Header & Summary --- */
         h1 { font-family: var(--font-title); font-weight: 800; letter-spacing: -1px; }
         
         .summary-badge {
@@ -75,7 +74,7 @@
             padding: 12px 0;
         }
 
-        /* --- Inputs Simulation --- */
+        /* --- Simulation Inputs --- */
         .form-label {
             font-size: 0.8rem;
             text-transform: uppercase;
@@ -101,27 +100,27 @@
             background: rgba(255, 255, 255, 0.06);
         }
 
-        /* --- Fix Logo Stripe & Pay (Pure White) --- */
+        /* --- Logos de Paiement (Blanc) --- */
         .payment-logos {
             display: flex;
             gap: 15px;
             justify-content: center;
-            filter: brightness(0) invert(1); /* Force tous les logos en blanc pur */
+            filter: brightness(0) invert(1);
             opacity: 0.6;
             margin-top: 2rem;
         }
 
-        /* --- Fix Button Design --- */
+        /* --- Bouton de Paiement --- */
         .btn-pay {
             background: var(--gradient-stripe);
             border: none;
             border-radius: 16px;
             padding: 18px 30px;
             width: 100%;
-            color: #FFFFFF !important; /* Force blanc pur */
+            color: #FFFFFF !important;
             font-weight: 800;
             text-transform: uppercase;
-            text-decoration: none !important; /* Supprime le soulignement */
+            text-decoration: none !important;
             letter-spacing: 1px;
             display: flex;
             align-items: center;
@@ -138,9 +137,7 @@
             filter: brightness(1.1);
         }
 
-        .btn-pay:active { transform: scale(0.98); }
-
-        /* --- Loading Spinner --- */
+        /* --- Spinner --- */
         .spinner {
             display: none;
             width: 22px;
@@ -152,11 +149,6 @@
         }
 
         @keyframes spin { to { transform: rotate(360deg); } }
-
-        /* --- Responsive Fix --- */
-        @media (max-width: 991px) {
-            .glass-card { margin-bottom: 1.5rem; }
-        }
     </style>
 </head>
 <body>
@@ -167,7 +159,7 @@
             
             <header class="text-center mb-5 fade-in">
                 <h1 class="display-5">Paiement <span style="color:var(--neon-green)">Sécurisé</span></h1>
-                <p class="opacity-50">Simulation de paiement via Stripe Elements.</p>
+                <p class="opacity-50">Simulation de paiement final pour ta séance.</p>
             </header>
 
             <div class="row g-4">
@@ -177,7 +169,6 @@
                             <h5 class="m-0 fw-bold">Résumé</h5>
                             <span class="summary-badge">STUDENT MOVE</span>
                         </div>
-                        
                         <div class="summary-line">
                             <span class="opacity-50">Séance</span>
                             <span class="fw-bold">Patinage Artistique</span>
@@ -186,14 +177,9 @@
                             <span class="opacity-50">Coach</span>
                             <span class="fw-bold">Sarah</span>
                         </div>
-                        <div class="summary-line">
-                            <span class="opacity-50">Date</span>
-                            <span class="fw-bold">Aujourd'hui</span>
-                        </div>
-
                         <div class="mt-4 p-3 rounded-4" style="background: rgba(255,255,255,0.03);">
                             <div class="d-flex justify-content-between align-items-center">
-                                <span class="fw-bold">Total à régler</span>
+                                <span class="fw-bold">Total</span>
                                 <span class="h3 mb-0 fw-black" style="color:var(--neon-green)">8.00€</span>
                             </div>
                         </div>
@@ -202,39 +188,28 @@
 
                 <div class="col-lg-8 fade-in" style="animation-delay: 0.2s;">
                     <div class="glass-card">
-                        <form id="simulation-form">
+                        <form id="payment-simulation-form">
                             <div class="mb-4">
-                                <label class="form-label">Nom du titulaire</label>
+                                <label class="form-label">Nom sur la carte</label>
                                 <input type="text" class="input-group-custom" placeholder="Jean Dupont">
                             </div>
 
                             <div class="mb-4">
-                                <label class="form-label">Informations de carte</label>
-                                <div style="position: relative;">
-                                    <input type="text" class="input-group-custom" placeholder="4242 4242 4242 4242">
-                                    <div class="row g-2">
-                                        <div class="col-6">
-                                            <input type="text" class="input-group-custom" placeholder="MM / YY">
-                                        </div>
-                                        <div class="col-6">
-                                            <input type="text" class="input-group-custom" placeholder="CVC">
-                                        </div>
+                                <label class="form-label">Détails de paiement</label>
+                                <input type="text" class="input-group-custom" placeholder="4242 4242 4242 4242">
+                                <div class="row g-2">
+                                    <div class="col-6">
+                                        <input type="text" class="input-group-custom" placeholder="MM / YY">
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="text" class="input-group-custom" placeholder="CVC">
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="p-3 rounded-3 mb-4 d-flex align-items-start gap-3" style="background: rgba(173, 255, 47, 0.05);">
-                                <i class="fas fa-lock mt-1" style="color:var(--neon-green)"></i>
-                                <p class="small m-0 opacity-75">
-                                    Vos données sont cryptées par les protocoles SSL. Vos informations bancaires ne sont pas stockées.
-                                </p>
-                            </div>
-
-                            <button type="submit" class="btn-pay" id="main-pay-button">
-                                <div class="spinner" id="loader"></div>
-                                <a href="confirmation.html" class="inline-block">
-    <span id="button-text">Payer et confirmer ma séance</span>
-</a>
+                            <button type="submit" class="btn-pay" id="pay-button">
+                                <div class="spinner" id="btn-spinner"></div>
+                                <span id="btn-text">Payer et confirmer ma séance</span>
                             </button>
                         </form>
 
@@ -250,31 +225,29 @@
             </div>
 
             <footer class="text-center mt-5 opacity-25 small">
-                © 2026 STUDENT MOVE — Checkout sécurisé (Mode Démonstration)
+                © 2026 STUDENT MOVE — Paiement sécurisé crypté.
             </footer>
         </div>
     </div>
 </div>
 
 <script>
-    const form = document.getElementById('simulation-form');
-    const btn = document.getElementById('main-pay-button');
-    const loader = document.getElementById('loader');
-    const btnText = document.getElementById('btn-text');
+    const paymentForm = document.getElementById('payment-simulation-form');
+    const payBtn = document.getElementById('pay-button');
+    const spinner = document.getElementById('btn-spinner');
+    const label = document.getElementById('btn-text');
 
-    form.addEventListener('submit', function(e) {
-        // Empêche le rafraîchissement de la page
+    paymentForm.addEventListener('submit', function(e) {
         e.preventDefault();
 
-        // 1. État de chargement
-        btn.style.pointerEvents = "none"; // Empêche le double clic
-        loader.style.display = "block";
-        btnText.innerText = "Traitement...";
+        // 1. État de chargement UI
+        payBtn.style.pointerEvents = "none"; 
+        spinner.style.display = "block";
+        label.innerText = "Traitement…";
 
-        // 2. Simulation de délai (1.5 seconde)
+        // 2. Délai de 1.5s puis redirection vers confirmation.html
         setTimeout(() => {
-            // 3. Redirection vers success.html
-            window.location.href = "success.html";
+            window.location.href = "confirmation.html";
         }, 1500);
     });
 </script>
