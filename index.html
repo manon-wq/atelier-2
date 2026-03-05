@@ -1,487 +1,427 @@
 <!DOCTYPE html>
-
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STUDENT MOVE | Le sport sans se ruiner</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STUDENT MOVE | Le sport sans se ruiner</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <script src="https://unpkg.com/scrollreveal"></script>
 
-<link href="[https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css](https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css)" rel="stylesheet">
-<link href="[https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&family=Space+Grotesk:wght@500;700;800&display=swap](https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&family=Space+Grotesk:wght@500;700;800&display=swap)" rel="stylesheet">
-<link rel="stylesheet" href="[https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css](https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css)">
-<link rel="stylesheet" href="[https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css](https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css)"/>
-<script src="[https://unpkg.com/scrollreveal](https://unpkg.com/scrollreveal)"></script>
+    <style>
+        :root {
+            --primary: #FF3CAC;
+            --secondary: #784BA0;
+            --accent: #ADFF2F;
+            --dark: #050505;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --gradient: linear-gradient(135deg, #FF3CAC 0%, #784BA0 50%, #2B86C5 100%);
+        }
 
-<style>
-    :root {
-        --primary: #FF3CAC;
-        --secondary: #784BA0;
-        --accent: #ADFF2F;
-        --dark: #050505;
-        --glass: rgba(255, 255, 255, 0.03);
-        --glass-border: rgba(255, 255, 255, 0.1);
-        --gradient: linear-gradient(135deg, #FF3CAC 0%, #784BA0 50%, #2B86C5 100%);
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none !important; /* Curseur custom activé */
+        }
 
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        cursor: none !important; /* Curseur custom activé */
-    }
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--dark);
+            color: white;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
 
-    body {
-        font-family: 'Outfit', sans-serif;
-        background-color: var(--dark);
-        color: white;
-        overflow-x: hidden;
-        line-height: 1.6;
-    }
+        /* --- Custom Emoji Cursor --- */
+        #custom-cursor {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            font-size: 32px;
+            pointer-events: none;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.1s ease-out;
+            filter: drop-shadow(0 0 10px rgba(173, 255, 47, 0.5));
+            animation: cursorBounce 1.5s infinite ease-in-out;
+        }
 
-    /* --- Custom Emoji Cursor --- */
-    #custom-cursor {
-        position: fixed;
-        width: 40px;
-        height: 40px;
-        font-size: 32px;
-        pointer-events: none;
-        z-index: 9999;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: transform 0.1s ease-out;
-        filter: drop-shadow(0 0 10px rgba(173, 255, 47, 0.5));
-        animation: cursorBounce 1.5s infinite ease-in-out;
-    }
+        @keyframes cursorBounce {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.2) rotate(10deg); }
+        }
 
-    @keyframes cursorBounce {
-        0%, 100% { transform: scale(1) rotate(0deg); }
-        50% { transform: scale(1.2) rotate(10deg); }
-    }
+        /* --- Floating Emoji Background --- */
+        .bg-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
 
-    /* --- Floating Emoji Background --- */
-    .bg-container {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
-        overflow: hidden;
-        pointer-events: none;
-    }
+        .floating-emoji {
+            position: absolute;
+            user-select: none;
+            will-change: transform, opacity;
+            filter: saturate(1.2);
+        }
 
-    .floating-emoji {
-        position: absolute;
-        user-select: none;
-        will-change: transform, opacity;
-        filter: saturate(1.2);
-    }
+        @keyframes floatAnimation {
+            0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translate(var(--x), var(--y)) rotate(var(--r)); opacity: 0; }
+        }
 
-    @keyframes floatAnimation {
-        0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
-        10% { opacity: 0.6; }
-        90% { opacity: 0.6; }
-        100% { transform: translate(var(--x), var(--y)) rotate(var(--r)); opacity: 0; }
-    }
+        /* --- UI Components --- */
+        .navbar {
+            background: rgba(5, 5, 5, 0.8) !important;
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 1.5rem 0;
+        }
 
-    /* --- UI Components --- */
-    .navbar {
-        background: rgba(5, 5, 5, 0.8) !important;
-        backdrop-filter: blur(20px);
-        border-bottom: 1px solid var(--glass-border);
-        padding: 1.5rem 0;
-    }
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 100px;
+            position: relative;
+        }
 
-    .hero-section {
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding-top: 100px;
-        position: relative;
-    }
+        .btn-glow {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            padding: 18px 35px;
+            border-radius: 100px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(255, 60, 172, 0.3);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
 
-    .btn-glow {
-        background: var(--gradient);
-        color: white;
-        border: none;
-        padding: 18px 35px;
-        border-radius: 100px;
-        font-weight: 800;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        box-shadow: 0 10px 30px rgba(255, 60, 172, 0.3);
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        text-decoration: none;
-    }
+        .btn-outline-custom {
+            border: 2px solid white;
+            color: white;
+            padding: 18px 35px;
+            border-radius: 100px;
+            font-weight: 800;
+            text-transform: uppercase;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            min-width: 250px;
+            background: transparent;
+        }
 
-    .btn-outline-custom {
-        border: 2px solid white;
-        color: white;
-        padding: 18px 35px;
-        border-radius: 100px;
-        font-weight: 800;
-        text-transform: uppercase;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.3s ease;
-        min-width: 250px;
-        background: transparent;
-    }
+        .btn-outline-custom:hover {
+            background: white;
+            color: var(--dark);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.1);
+        }
 
-    .btn-outline-custom:hover {
-        background: white;
-        color: var(--dark);
-        transform: translateY(-3px);
-        box-shadow: 0 10px 20px rgba(255, 255, 255, 0.1);
-    }
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 2.5rem;
+            transition: 0.4s ease;
+        }
 
-    .glass-card {
-        background: var(--glass);
-        backdrop-filter: blur(15px);
-        border: 1px solid var(--glass-border);
-        border-radius: 30px;
-        padding: 2.5rem;
-        transition: 0.4s ease;
-    }
+        .glass-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.05);
+        }
 
-    .glass-card:hover {
-        border-color: var(--accent);
-        transform: translateY(-10px);
-        background: rgba(255, 255, 255, 0.05);
-    }
+        .badge-student {
+            background: var(--accent);
+            color: black;
+            font-weight: 900;
+            padding: 8px 20px;
+            border-radius: 12px;
+            transform: rotate(-2deg);
+            display: inline-block;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
 
-    .badge-student {
-        background: var(--accent);
-        color: black;
-        font-weight: 900;
-        padding: 8px 20px;
-        border-radius: 12px;
-        transform: rotate(-2deg);
-        display: inline-block;
-        margin-bottom: 2rem;
-        font-size: 0.9rem;
-    }
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 800;
+            font-size: clamp(3rem, 8vw, 6rem);
+            line-height: 0.9;
+        }
 
-    h1 {
-        font-family: 'Space Grotesk', sans-serif;
-        font-weight: 800;
-        font-size: clamp(3rem, 8vw, 6rem);
-        line-height: 0.9;
-    }
+        .text-neon { color: var(--accent); text-shadow: 0 0 20px rgba(173, 255, 47, 0.3); }
 
-    .text-neon { color: var(--accent); text-shadow: 0 0 20px rgba(173, 255, 47, 0.3); }
+        /* --- Offers Section Styling --- */
+        #offers .card-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
 
-    /* --- Newsletter Styles --- */
-    .newsletter-input {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid var(--glass-border);
-        border-radius: 100px;
-        padding: 18px 30px;
-        color: white;
-        width: 100%;
-        max-width: 400px;
-        outline: none;
-        transition: 0.3s;
-    }
+        .price-tag {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--accent);
+        }
 
-    .newsletter-input:focus {
-        border-color: var(--accent);
-        background: rgba(255, 255, 255, 0.1);
-    }
+        .accordion-item {
+            background: transparent !important;
+            border: none;
+            border-bottom: 1px solid var(--glass-border);
+            margin-bottom: 1rem;
+        }
 
-    #newsletter-message {
-        display: none;
-        color: var(--accent);
-        font-weight: 700;
-        margin-top: 1rem;
-    }
+        .accordion-button {
+            background: transparent !important;
+            color: white !important;
+            font-weight: 700;
+            font-size: 1.2rem;
+            padding: 1.5rem 0;
+            box-shadow: none !important;
+        }
 
-    /* --- Offers Section Styling --- */
-    #offers .card-icon {
-        font-size: 4rem;
-        margin-bottom: 1.5rem;
-        display: block;
-    }
-
-    .price-tag {
-        font-size: 2rem;
-        font-weight: 900;
-        color: var(--accent);
-    }
-
-    .accordion-item {
-        background: transparent !important;
-        border: none;
-        border-bottom: 1px solid var(--glass-border);
-        margin-bottom: 1rem;
-    }
-
-    .accordion-button {
-        background: transparent !important;
-        color: white !important;
-        font-weight: 700;
-        font-size: 1.2rem;
-        padding: 1.5rem 0;
-        box-shadow: none !important;
-    }
-
-    /* --- Responsive --- */
-    @media (max-width: 768px) {
-        * { cursor: auto !important; }
-        #custom-cursor { display: none; }
-        .btn-outline-custom, .btn-glow { width: 100%; }
-    }
-</style>
+        /* --- Responsive --- */
+        @media (max-width: 768px) {
+            * { cursor: auto !important; }
+            #custom-cursor { display: none; }
+            .btn-outline-custom, .btn-glow { width: 100%; }
+        }
+    </style>
 </head>
 <body>
 
-<div id="custom-cursor">🏃</div>
+    <div id="custom-cursor">🏃</div>
 
-<div class="bg-container" id="emoji-bg"></div>
+    <div class="bg-container" id="emoji-bg"></div>
 
-<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-    <div class="container">
-        <a class="navbar-brand fw-bold fs-3" href="#">STUDENT<span class="text-neon">MOVE.</span></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto align-items-center">
-                <li class="nav-item"><a class="nav-link px-3" href="#concept">Le Concept</a></li>
-                <li class="nav-item"><a class="nav-link px-3" href="#offers">Les Offres</a></li>
-                <li class="nav-item"><a class="nav-link px-3" href="#faq">FAQ</a></li>
-                <li class="nav-item ms-lg-3 mt-3 mt-lg-0">
-                    <a href="formulaire.html" class="btn btn-glow py-2 px-4">Réserver</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
-<section class="hero-section">
-    <div class="container text-center">
-        <div class="reveal-zoom">
-            <span class="badge-student">PROMO : -50% SUR TA PREMIÈRE SÉANCE ⚡</span>
-            <h1>TRANSFORME <br><span class="text-neon">TON CORPS,</span> <br>PAS TON COMPTE.</h1>
-            <p class="lead mt-4 mb-5 opacity-75 mx-auto" style="max-width: 700px; font-size: 1.3rem;">
-                Accède aux meilleures salles de sport sans abonnement contraignant. 
-                Paye à la séance, flexibilité totale pour les étudiants.
-            </p>
-            <div class="d-flex flex-column flex-md-row justify-content-center gap-4 align-items-center">
-                <a href="formulaire.html" class="btn btn-glow">Trouver une séance</a>
-                <a href="#concept" class="btn btn-outline-custom">Comment ça marche ?</a>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section id="concept" class="py-5 mt-5">
-    <div class="container py-5">
-        <div class="row align-items-center g-5">
-            <div class="col-lg-6 reveal-left">
-                <h2 class="display-4 fw-bold mb-4">Le sport, <br><span class="text-neon">en mode liberté.</span></h2>
-                <p class="fs-5 text-secondary">Fini les contrats de 12 mois impossibles à résilier. StudentMove s'adapte à ton emploi du temps de ministre.</p>
-                <ul class="list-unstyled mt-4">
-                    <li class="mb-3 fs-5"><i class="fa-solid fa-circle-check text-neon me-3"></i> Sans aucun engagement</li>
-                    <li class="mb-3 fs-5"><i class="fa-solid fa-circle-check text-neon me-3"></i> Tarifs exclusifs carte étudiante</li>
-                    <li class="mb-3 fs-5"><i class="fa-solid fa-circle-check text-neon me-3"></i> Réservation en 3 clics</li>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold fs-3" href="#">STUDENT<span class="text-neon">MOVE.</span></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link px-3" href="#concept">Le Concept</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="#offers">Les Offres</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="#faq">FAQ</a></li>
+                    <li class="nav-item ms-lg-3 mt-3 mt-lg-0">
+                        <a href="#booking" class="btn btn-glow py-2 px-4">Réserver</a>
+                    </li>
                 </ul>
             </div>
-            <div class="col-lg-6 reveal-right">
-                <div class="glass-card text-center">
-                    <div class="display-1 mb-3 text-neon fw-bold">12€</div>
-                    <p class="text-uppercase fw-bold tracking-widest">Prix moyen d'une séance premium</p>
-                    <hr class="border-secondary opacity-25">
-                    <p class="mb-0">Valable dans +50 salles partenaires à travers la France.</p>
+        </div>
+    </nav>
+
+    <section class="hero-section">
+        <div class="container text-center">
+            <div class="reveal-zoom">
+                <span class="badge-student">PROMO : -50% SUR TA PREMIÈRE SÉANCE ⚡</span>
+                <h1>TRANSFORME <br><span class="text-neon">TON CORPS,</span> <br>PAS TON COMPTE.</h1>
+                <p class="lead mt-4 mb-5 opacity-75 mx-auto" style="max-width: 700px; font-size: 1.3rem;">
+                    Accède aux meilleures salles de sport sans abonnement contraignant. 
+                    Paye à la séance, flexibilité totale pour les étudiants.
+                </p>
+                <div class="d-flex flex-column flex-md-row justify-content-center gap-4 align-items-center">
+                    <a href="formulaire.html" class="btn btn-glow">Trouver une séance</a>
+                    <a href="#concept" class="btn btn-outline-custom">Comment ça marche ?</a>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<section id="offers" class="py-5">
-    <div class="container py-5">
-        <h2 class="text-center display-4 fw-bold mb-5">CHOISIS <span class="text-neon">TA VIBE</span></h2>
-        <div class="row g-4">
-            <div class="col-md-6 col-lg-3 reveal-up">
-                <div class="glass-card text-center h-100">
-                    <span class="card-icon">⛸️</span>
-                    <h3>Patinage</h3>
-                    <p class="text-secondary">Domine la glace avec style et grâce.</p>
-                    <div class="price-tag my-3">8€</div>
-                    <a href="formulaire.html" class="btn btn-glow w-100">Réserver</a>
+    <section id="concept" class="py-5 mt-5">
+        <div class="container py-5">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6 reveal-left">
+                    <h2 class="display-4 fw-bold mb-4">Le sport, <br><span class="text-neon">en mode liberté.</span></h2>
+                    <p class="fs-5 text-secondary">Fini les contrats de 12 mois impossibles à résilier. StudentMove s'adapte à ton emploi du temps de ministre.</p>
+                    <ul class="list-unstyled mt-4">
+                        <li class="mb-3 fs-5"><i class="fa-solid fa-circle-check text-neon me-3"></i> Sans aucun engagement</li>
+                        <li class="mb-3 fs-5"><i class="fa-solid fa-circle-check text-neon me-3"></i> Tarifs exclusifs carte étudiante</li>
+                        <li class="mb-3 fs-5"><i class="fa-solid fa-circle-check text-neon me-3"></i> Réservation en 3 clics</li>
+                    </ul>
                 </div>
-            </div>
-            <div class="col-md-6 col-lg-3 reveal-up" style="transition-delay: 0.1s;">
-                <div class="glass-card text-center h-100">
-                    <span class="card-icon">🏃</span>
-                    <h3>Running</h3>
-                    <p class="text-secondary">Séances de groupe coachées en ville.</p>
-                    <div class="price-tag my-3">5€</div>
-                    <a href="formulaire.html" class="btn btn-glow w-100">Réserver</a>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-3 reveal-up" style="transition-delay: 0.2s;">
-                <div class="glass-card text-center h-100">
-                    <span class="card-icon">🧘</span>
-                    <h3>Pilates</h3>
-                    <p class="text-secondary">Renforcement profond et détente.</p>
-                    <div class="price-tag my-3">10€</div>
-                    <a href="formulaire.html" class="btn btn-glow w-100">Réserver</a>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-3 reveal-up" style="transition-delay: 0.3s;">
-                <div class="glass-card text-center h-100">
-                    <span class="card-icon">🩰</span>
-                    <h3>Danse</h3>
-                    <p class="text-secondary">Cours dynamiques pour améliorer ton rythme.</p>
-                    <div class="price-tag my-3">9€</div>
-                    <a href="formulaire.html" class="btn btn-glow w-100">Réserver</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section id="faq" class="py-5">
-    <div class="container py-5">
-        <h2 class="mb-5 fw-bold">FAQ <span class="text-neon">QUESTIONS.</span></h2>
-        <div class="accordion" id="studentFAQ">
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f1">
-                        Dois-je montrer ma carte étudiante ?
-                    </button>
-                </h2>
-                <div id="f1" class="accordion-collapse collapse" data-bs-parent="#studentFAQ">
-                    <div class="accordion-body opacity-75">
-                        Oui, lors de ton arrivée à la salle, une carte étudiante en cours de validité te sera demandée.
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f2">
-                        Puis-je annuler une séance ?
-                    </button>
-                </h2>
-                <div id="f2" class="accordion-collapse collapse" data-bs-parent="#studentFAQ">
-                    <div class="accordion-body opacity-75">
-                        Bien sûr ! Jusqu'à 12h avant la séance pour un remboursement intégral.
+                <div class="col-lg-6 reveal-right">
+                    <div class="glass-card text-center">
+                        <div class="display-1 mb-3 text-neon fw-bold">12€</div>
+                        <p class="text-uppercase fw-bold tracking-widest">Prix moyen d'une séance premium</p>
+                        <hr class="border-secondary opacity-25">
+                        <p class="mb-0">Valable dans +50 salles partenaires à travers la France.</p>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<section id="newsletter" class="py-5">
-    <div class="container">
-        <div class="glass-card text-center reveal-up">
-            <h2 class="fw-bold mb-3">Reçois les nouvelles séances <span class="text-neon">STUDENT MOVE</span></h2>
-            <p class="opacity-75 mb-4 mx-auto" style="max-width: 600px;">
-                Inscris-toi pour recevoir les nouvelles séances sportives disponibles près de toi.
-            </p>
-            <form id="newsletter-form" class="d-flex flex-column flex-md-row justify-content-center gap-3 align-items-center">
-                <input type="email" id="newsletter-email" class="newsletter-input" placeholder="Ton email étudiant" required>
-                <button type="submit" class="btn btn-glow">S'inscrire</button>
-            </form>
-            <div id="newsletter-message">Merci ! Tu recevras bientôt les prochaines séances.</div>
+    <section id="offers" class="py-5">
+        <div class="container py-5">
+            <h2 class="text-center display-4 fw-bold mb-5">CHOISIS <span class="text-neon">TA VIBE</span></h2>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3 reveal-up">
+                    <div class="glass-card text-center h-100">
+                        <span class="card-icon">⛸️</span>
+                        <h3>Patinage</h3>
+                        <p class="text-secondary">Domine la glace avec style et grâce.</p>
+                        <div class="price-tag my-3">8€</div>
+                        <button class="btn btn-glow w-100">Réserver</button>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 reveal-up" style="transition-delay: 0.1s;">
+                    <div class="glass-card text-center h-100">
+                        <span class="card-icon">🏃</span>
+                        <h3>Running</h3>
+                        <p class="text-secondary">Séances de groupe coachées en ville.</p>
+                        <div class="price-tag my-3">5€</div>
+                        <button class="btn btn-glow w-100">Réserver</button>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 reveal-up" style="transition-delay: 0.2s;">
+                    <div class="glass-card text-center h-100">
+                        <span class="card-icon">🧘</span>
+                        <h3>Pilates</h3>
+                        <p class="text-secondary">Renforcement profond et détente.</p>
+                        <div class="price-tag my-3">10€</div>
+                        <button class="btn btn-glow w-100">Réserver</button>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 reveal-up" style="transition-delay: 0.3s;">
+                    <div class="glass-card text-center h-100">
+                        <span class="card-icon">🩰</span>
+                        <h3>Danse</h3>
+                        <p class="text-secondary">Cours dynamiques pour améliorer ton rythme.</p>
+                        <div class="price-tag my-3">9€</div>
+                        <button class="btn btn-glow w-100">Réserver</button>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<footer class="py-5 border-top border-secondary">
-    <div class="container text-center">
-        <h3 class="fw-bold">STUDENT<span class="text-neon">MOVE.</span></h3>
-        <div class="d-flex justify-content-center gap-3 my-4">
-            <a href="#" class="text-white fs-4"><i class="fa-brands fa-instagram"></i></a>
-            <a href="#" class="text-white fs-4"><i class="fa-brands fa-tiktok"></i></a>
+    <section id="faq" class="py-5">
+        <div class="container py-5">
+            <h2 class="mb-5 fw-bold">FAQ <span class="text-neon">QUESTIONS.</span></h2>
+            <div class="accordion" id="studentFAQ">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f1">
+                            Dois-je montrer ma carte étudiante ?
+                        </button>
+                    </h2>
+                    <div id="f1" class="accordion-collapse collapse" data-bs-parent="#studentFAQ">
+                        <div class="accordion-body opacity-75">
+                            Oui, lors de ton arrivée à la salle, une carte étudiante en cours de validité te sera demandée.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f2">
+                            Puis-je annuler une séance ?
+                        </button>
+                    </h2>
+                    <div id="f2" class="accordion-collapse collapse" data-bs-parent="#studentFAQ">
+                        <div class="accordion-body opacity-75">
+                            Bien sûr ! Jusqu'à 12h avant la séance pour un remboursement intégral.
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <p class="text-secondary small">©️ 2026 StudentMove. Tous droits réservés.</p>
-    </div>
-</footer>
+    </section>
 
-<script src="[https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js](https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js)"></script>
-<script>
-    // --- Custom Cursor ---
-    const cursor = document.getElementById('custom-cursor');
-    document.addEventListener('mousemove', (e) => {
-        cursor.style.left = e.clientX + 'px';
-        cursor.style.top = e.clientY + 'px';
-    });
+    <footer class="py-5 border-top border-secondary">
+        <div class="container text-center">
+            <h3 class="fw-bold">STUDENT<span class="text-neon">MOVE.</span></h3>
+            <div class="d-flex justify-content-center gap-3 my-4">
+                <a href="#" class="text-white fs-4"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="text-white fs-4"><i class="fa-brands fa-tiktok"></i></a>
+            </div>
+            <p class="text-secondary small">© 2026 StudentMove. Tous droits réservés.</p>
+        </div>
+    </footer>
 
-    const interactives = document.querySelectorAll('a, button, .accordion-button, .newsletter-input');
-    interactives.forEach(el => {
-        el.addEventListener('mouseenter', () => {
-            cursor.innerText = '💪';
-            cursor.style.transform = 'scale(1.5)';
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // --- Custom Cursor ---
+        const cursor = document.getElementById('custom-cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
         });
-        el.addEventListener('mouseleave', () => {
-            cursor.innerText = '🏃';
-            cursor.style.transform = 'scale(1)';
+
+        const interactives = document.querySelectorAll('a, button, .accordion-button');
+        interactives.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.innerText = '💪';
+                cursor.style.transform = 'scale(1.5)';
+            });
+            el.addEventListener('mouseleave', () => {
+                cursor.innerText = '🏃';
+                cursor.style.transform = 'scale(1)';
+            });
         });
-    });
 
-    // --- Newsletter Logic ---
-    document.getElementById('newsletter-form').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const email = document.getElementById('newsletter-email').value;
-        const message = document.getElementById('newsletter-message');
-        const submitBtn = this.querySelector('button');
+        // --- Floating Emojis ---
+        const emojiLibrary = ['⛸️', '🩰', '🏃', '🧘', '💪', '⚡', '🔥'];
+        const bgContainer = document.getElementById('emoji-bg');
+        const emojiCount = 20;
 
-        submitBtn.innerText = 'Envoi...';
-        submitBtn.disabled = true;
+        for (let i = 0; i < emojiCount; i++) {
+            const span = document.createElement('span');
+            span.className = 'floating-emoji';
+            span.innerText = emojiLibrary[Math.floor(Math.random() * emojiLibrary.length)];
+            const size = Math.random() * (60 - 30) + 30;
+            const startX = Math.random() * 100;
+            const startY = Math.random() * 100;
+            const duration = Math.random() * (25 - 15) + 15;
+            const delay = Math.random() * -20;
+            const moveX = (Math.random() - 0.5) * 300;
+            const moveY = (Math.random() - 0.5) * 300;
+            const rotation = (Math.random() - 0.5) * 720;
 
-        // Simulate API Fetch request
-        setTimeout(() => {
-            this.style.display = 'none';
-            message.style.display = 'block';
-            console.log("Email capturé : " + email);
-        }, 1000);
-    });
+            span.style.fontSize = `${size}px`;
+            span.style.left = `${startX}%`;
+            span.style.top = `${startY}%`;
+            span.style.setProperty('--x', `${moveX}px`);
+            span.style.setProperty('--y', `${moveY}px`);
+            span.style.setProperty('--r', `${rotation}deg`);
+            span.style.animation = `floatAnimation ${duration}s linear infinite`;
+            span.style.animationDelay = `${delay}s`;
+            bgContainer.appendChild(span);
+        }
 
-    // --- Floating Emojis ---
-    const emojiLibrary = ['⛸️', '🩰', '🏃', '🧘', '💪', '⚡', '🔥'];
-    const bgContainer = document.getElementById('emoji-bg');
-    const emojiCount = 20;
-
-    for (let i = 0; i < emojiCount; i++) {
-        const span = document.createElement('span');
-        span.className = 'floating-emoji';
-        span.innerText = emojiLibrary[Math.floor(Math.random() * emojiLibrary.length)];
-        const size = Math.random() * (60 - 30) + 30;
-        const startX = Math.random() * 100;
-        const startY = Math.random() * 100;
-        const duration = Math.random() * (25 - 15) + 15;
-        const delay = Math.random() * -20;
-        const moveX = (Math.random() - 0.5) * 300;
-        const moveY = (Math.random() - 0.5) * 300;
-        const rotation = (Math.random() - 0.5) * 720;
-
-        span.style.fontSize = `${size}px`;
-        span.style.left = `${startX}%`;
-        span.style.top = `${startY}%`;
-        span.style.setProperty('--x', `${moveX}px`);
-        span.style.setProperty('--y', `${moveY}px`);
-        span.style.setProperty('--r', `${rotation}deg`);
-        span.style.animation = `floatAnimation ${duration}s linear infinite`;
-        span.style.animationDelay = `${delay}s`;
-        bgContainer.appendChild(span);
-    }
-
-    // --- ScrollReveal ---
-    ScrollReveal().reveal('.reveal-up', { distance: '50px', duration: 1000, origin: 'bottom', interval: 200 });
-    ScrollReveal().reveal('.reveal-left', { distance: '50px', duration: 1000, origin: 'left' });
-    ScrollReveal().reveal('.reveal-right', { distance: '50px', duration: 1000, origin: 'right' });
-    ScrollReveal().reveal('.reveal-zoom', { scale: 0.85, duration: 1200 });
-</script>
+        // --- ScrollReveal ---
+        ScrollReveal().reveal('.reveal-up', { distance: '50px', duration: 1000, origin: 'bottom', interval: 200 });
+        ScrollReveal().reveal('.reveal-left', { distance: '50px', duration: 1000, origin: 'left' });
+        ScrollReveal().reveal('.reveal-right', { distance: '50px', duration: 1000, origin: 'right' });
+        ScrollReveal().reveal('.reveal-zoom', { scale: 0.85, duration: 1200 });
+    </script>
 </body>
 </html>
