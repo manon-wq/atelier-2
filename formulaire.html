@@ -10,88 +10,85 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* --- Variables & Reset --- */
+        /* --- Système de Design --- */
         :root {
-            --bg-black: #050505;
+            --bg-deep: #050505;
             --neon-green: #ADFF2F;
             --accent-purple: #784BA0;
             --glass: rgba(255, 255, 255, 0.04);
             --glass-border: rgba(255, 255, 255, 0.08);
-            --gradient-main: linear-gradient(135deg, #FF3CAC 0%, #784BA0 50%, #2B86C5 100%);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --gradient-primary: linear-gradient(135deg, #FF3CAC 0%, #784BA0 50%, #2B86C5 100%);
+            --font-main: 'Outfit', sans-serif;
+            --font-title: 'Space Grotesk', sans-serif;
         }
 
         body {
-            background-color: var(--bg-black);
+            background-color: var(--bg-deep);
             color: #ffffff;
-            font-family: 'Outfit', sans-serif;
+            font-family: var(--font-main);
             min-height: 100vh;
             display: flex;
             align-items: center;
-            overflow-x: hidden;
-            /* Subtiles lueurs dynamiques en arrière-plan */
+            justify-content: center;
+            margin: 0;
+            /* Subtiles lueurs de fond pour la profondeur */
             background-image: 
-                radial-gradient(circle at 15% 15%, rgba(120, 75, 160, 0.12) 0%, transparent 35%),
-                radial-gradient(circle at 85% 85%, rgba(173, 255, 47, 0.05) 0%, transparent 35%);
+                radial-gradient(circle at 10% 10%, rgba(120, 75, 160, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(173, 255, 47, 0.05) 0%, transparent 40%);
         }
 
-        /* --- UI Components --- */
-        .booking-container {
-            max-width: 650px;
-            width: 100%;
-            margin: 2rem auto;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInPage 0.8s forwards;
+        /* --- Animation d'entrée --- */
+        .fade-in-up {
+            animation: fadeInUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
 
-        @keyframes fadeInPage {
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* --- Carte Glassmorphism --- */
         .glass-card {
             background: var(--glass);
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
             border: 1px solid var(--glass-border);
-            border-radius: 32px;
+            border-radius: 28px;
             padding: 3rem;
-            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5);
         }
 
+        /* --- Typographie --- */
         h1 {
-            font-family: 'Space Grotesk', sans-serif;
+            font-family: var(--font-title);
             font-weight: 700;
             letter-spacing: -1px;
+            margin-bottom: 0.5rem;
         }
 
-        /* --- Form Elements --- */
+        .text-accent { color: var(--neon-green); }
+
+        /* --- Formulaire --- */
         .form-label {
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 1px;
             color: rgba(255, 255, 255, 0.5);
-            margin-bottom: 0.75rem;
-            display: flex;
-            align-items: center;
-        }
-
-        .form-label i {
-            margin-right: 8px;
-            color: var(--neon-green);
+            margin-bottom: 0.6rem;
         }
 
         .form-control, .form-select {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid var(--glass-border);
-            border-radius: 14px;
+            border-radius: 12px;
             padding: 14px 18px;
             color: #fff;
-            transition: var(--transition);
+            transition: all 0.3s ease;
         }
 
-        /* Hack pour éviter le fond blanc natif des navigateurs */
         .form-control:focus, .form-select:focus {
             background: rgba(255, 255, 255, 0.06);
             border-color: var(--neon-green);
@@ -99,12 +96,13 @@
             color: #fff;
         }
 
+        /* Correction pour les options sombres sur certains navigateurs */
         .form-select option {
-            background-color: var(--bg-black);
+            background-color: var(--bg-deep);
             color: white;
         }
 
-        /* --- Checkbox Styling --- */
+        /* --- Checkbox Custom --- */
         .form-check-input {
             background-color: rgba(255, 255, 255, 0.1);
             border-color: var(--glass-border);
@@ -116,150 +114,159 @@
             border-color: var(--neon-green);
         }
 
-        /* --- CTA Button --- */
-        .btn-submit {
-            background: var(--gradient-main);
+        /* --- Bouton de Paiement --- */
+        .btn-pay {
+            background: var(--gradient-primary);
             border: none;
-            border-radius: 16px;
-            padding: 18px 30px;
+            border-radius: 14px;
+            padding: 18px;
             color: #fff;
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 1px;
             width: 100%;
-            margin-top: 1.5rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 25px rgba(120, 75, 160, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
             position: relative;
-            transition: var(--transition);
-            box-shadow: 0 10px 30px rgba(120, 75, 160, 0.3);
         }
 
-        .btn-submit:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 15px 40px rgba(255, 60, 172, 0.4);
+        .btn-pay:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(255, 60, 172, 0.4);
             filter: brightness(1.1);
         }
 
-        .btn-submit:active {
+        .btn-pay:active {
             transform: scale(0.98);
         }
 
-        /* --- GDPR & Footer --- */
-        .privacy-note {
+        .btn-pay:disabled {
+            opacity: 0.8;
+            cursor: not-allowed;
+            filter: grayscale(0.5);
+        }
+
+        /* --- Spinner Loading --- */
+        .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* --- Footer Info --- */
+        .security-note {
             font-size: 0.75rem;
             color: rgba(255, 255, 255, 0.4);
-            line-height: 1.5;
-            margin-top: 1rem;
+            margin-top: 1.5rem;
+            text-align: center;
         }
 
-        .shield-icon {
-            color: var(--neon-green);
-            margin-right: 5px;
-        }
-
-        /* Responsive adjustments */
+        /* --- Responsive --- */
         @media (max-width: 576px) {
-            .glass-card { padding: 1.5rem; }
-            h1 { font-size: 1.75rem; }
+            .glass-card {
+                padding: 2rem 1.5rem;
+                border-radius: 0;
+                border: none;
+                background: transparent;
+                backdrop-filter: none;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="booking-container">
-            <div class="text-center mb-4">
-                <a href="#" class="text-decoration-none" style="color: var(--neon-green); font-weight: 800;">
-                    <i class="fas fa-arrow-left me-2"></i> RETOUR
-                </a>
-            </div>
+    <div class="container d-flex justify-content-center">
+        <div class="glass-card fade-in-up">
+            
+            <header class="text-center mb-5">
+                <p class="text-accent fw-bold small mb-2">ÉTAPE 1 SUR 2</p>
+                <h1>RÉSERVE TA <span class="text-accent">SÉANCE</span></h1>
+                <p class="opacity-50">Complète tes informations pour accéder au paiement.</p>
+            </header>
 
-            <div class="glass-card">
-                <div class="text-center mb-5">
-                    <h1 class="mb-2">RÉSERVE TA <span style="color: var(--neon-green);">SÉANCE</span></h1>
-                    <p class="opacity-50">Remplis tes infos et rejoins le mouvement.</p>
-                </div>
+            <form id="booking-form">
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <label for="first-name" class="form-label">Prénom</label>
+                        <input type="text" id="first-name" class="form-control" placeholder="Lucas" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="last-name" class="form-label">Nom</label>
+                        <input type="text" id="last-name" class="form-control" placeholder="Martin" required>
+                    </div>
 
-                <form id="bookingForm">
-                    <div class="row g-4">
-                        <div class="col-md-6">
-                            <label class="form-label"><i class="fas fa-user"></i> Prénom</label>
-                            <input type="text" class="form-control" placeholder="Ex: Lucas" required>
-                        </div>
+                    <div class="col-12">
+                        <label for="student-email" class="form-label">Email Étudiant</label>
+                        <input type="email" id="student-email" class="form-control" placeholder="nom.prenom@univ-exemple.fr" required>
+                    </div>
 
-                        <div class="col-md-6">
-                            <label class="form-label"><i class="fas fa-id-card"></i> Nom</label>
-                            <input type="text" class="form-control" placeholder="Ex: Martin" required>
-                        </div>
+                    <div class="col-12">
+                        <label for="sport-select" class="form-label">Choisir un sport</label>
+                        <select id="sport-select" class="form-select" required>
+                            <option value="" disabled selected>Quelle est ta vibe aujourd'hui ?</option>
+                            <option value="skating">⛸️ Patinage Artistique — 8€</option>
+                            <option value="dance">💃 Danse Urbaine — 6€</option>
+                            <option value="running">🏃 Coaching Course — 5€</option>
+                            <option value="pilates">🧘 Pilates — 7€</option>
+                        </select>
+                    </div>
 
-                        <div class="col-12">
-                            <label class="form-label"><i class="fas fa-envelope"></i> Email Étudiant</label>
-                            <input type="email" class="form-control" placeholder="lucas.martin@etu.univ.fr" required>
-                        </div>
-
-                        <div class="col-12">
-                            <label class="form-label"><i class="fas fa-dumbbell"></i> Choisis ton sport</label>
-                            <select class="form-select" required>
-                                <option value="" disabled selected>Sélectionne une discipline...</option>
-                                <option value="skating">⛸️ Patinage Artistique — 8€</option>
-                                <option value="dance">💃 Danse Urbaine — 6€</option>
-                                <option value="running">🏃 Coaching Course — 5€</option>
-                                <option value="pilates">🧘 Pilates — 7€</option>
-                            </select>
-                        </div>
-
-                        <div class="col-12 mt-4">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="rgpdCheck" required>
-                                <label class="form-check-label small opacity-75" for="rgpdCheck">
-                                    J'accepte que mes données soient utilisées uniquement pour la gestion de ma réservation.
-                                </label>
-                            </div>
-                            <div class="privacy-note d-flex align-items-start">
-                                <i class="fas fa-shield-alt shield-icon mt-1"></i>
-                                <span>Tes données sont cryptées et ne seront jamais partagées avec des tiers. Sécurité garantie.</span>
-                            </div>
-                        </div>
-
-                        <div class="col-12 mt-4">
-                            <button type="submit" class="btn btn-submit">
-                                  <i class="fas fa-credit-card me-2"></i> Procéder au paiement
-                            </button>
+                    <div class="col-12">
+                        <div class="form-check d-flex align-items-center gap-2">
+                            <input class="form-check-input" type="checkbox" id="gdpr" required>
+                            <label class="form-check-label small opacity-75" for="gdpr">
+                                J'accepte que mes données soient utilisées pour gérer ma réservation.
+                            </label>
                         </div>
                     </div>
-                </form>
-            </div>
 
-            <div class="text-center mt-4 opacity-25 small">
-                © 2026 STUDENT MOVE. TOUS DROITS RÉSERVÉS.
-            </div>
+                    <div class="col-12 mt-5">
+                        <button type="submit" id="submit-btn" class="btn-pay">
+                            <span class="spinner" id="btn-spinner"></span>
+                            <span id="btn-text">Procéder au paiement</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <footer class="security-note">
+                <i class="fas fa-shield-alt me-1"></i> Paiement 100% sécurisé via Stripe. <br>
+                Vos données personnelles sont cryptées.
+            </footer>
         </div>
     </div>
 
     <script>
-        document.getElementById('bookingForm').addEventListener('submit', function(e) {
+        document.getElementById('booking-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            
-            // Animation du bouton au clic
-            const btn = this.querySelector('.btn-submit');
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> REDIRECTION...';
-            btn.style.opacity = '0.8';
-            
-            // Simulation de redirection vers Stripe
+
+            const btn = document.getElementById('submit-btn');
+            const spinner = document.getElementById('btn-spinner');
+            const btnText = document.getElementById('btn-text');
+
+            // 1. Activation de l'état "Loading"
+            btn.disabled = true;
+            spinner.style.display = 'block';
+            btnText.innerText = 'Redirection...';
+
+            // 2. Délai simulé (800ms) puis redirection
             setTimeout(() => {
-                alert('Redirection sécurisée vers la page de paiement Stripe...');
-                // window.location.href = "URL_STRIPE_ICI";
+                window.location.href = "checkout.html";
             }, 800);
         });
-
-        // Micro-interaction : effet parallaxe léger sur la carte au mouvement de la souris (Desktop uniquement)
-        if (window.innerWidth > 992) {
-            const card = document.querySelector('.glass-card');
-            document.addEventListener('mousemove', (e) => {
-                const x = (window.innerWidth / 2 - e.pageX) / 50;
-                const y = (window.innerHeight / 2 - e.pageY) / 50;
-                card.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
-            });
-        }
     </script>
+
 </body>
 </html>
