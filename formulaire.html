@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Réserver ma séance | STUDENT MOVE</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Space+Grotesk:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #FF3CAC 0%, #784BA0 50%, #2B86C5 100%);
+            --neon-green: #ADFF2F;
+            --dark-bg: #050505;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--dark-bg);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: radial-gradient(circle at top right, rgba(120, 75, 160, 0.15), transparent),
+                        radial-gradient(circle at bottom left, rgba(173, 255, 47, 0.05), transparent);
+        }
+
+        h1, h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 800; }
+
+        /* --- Container & Card --- */
+        .booking-card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 3rem;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+        }
+
+        /* --- Form Styling --- */
+        .form-label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: rgba(255,255,255,0.8);
+            display: flex;
+            align-items: center;
+        }
+
+        .form-label i {
+            margin-right: 10px;
+            color: var(--neon-green);
+        }
+
+        .form-control, .form-select {
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 12px 20px;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--neon-green);
+            box-shadow: 0 0 15px rgba(173, 255, 47, 0.2);
+            color: white;
+        }
+
+        /* Custom Dropdown Arrow */
+        .form-select {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='white' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+        }
+
+        /* --- Checkbox Styling --- */
+        .form-check-input {
+            background-color: rgba(255,255,255,0.1);
+            border: 1px solid var(--glass-border);
+            width: 1.2em;
+            height: 1.2em;
+        }
+
+        .form-check-input:checked {
+            background-color: var(--neon-green);
+            border-color: var(--neon-green);
+        }
+
+        /* --- Button Payment --- */
+        .btn-payment {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 18px 35px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 100%;
+            margin-top: 2rem;
+            box-shadow: 0 10px 30px rgba(120, 75, 160, 0.4);
+        }
+
+        .btn-payment:hover {
+            transform: scale(1.02) translateY(-5px);
+            box-shadow: 0 15px 40px rgba(173, 255, 47, 0.3);
+            color: white;
+        }
+
+        /* --- Decorations --- */
+        .back-link {
+            text-decoration: none;
+            color: var(--neon-green);
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            transition: 0.3s;
+        }
+
+        .back-link:hover {
+            opacity: 0.8;
+            transform: translateX(-5px);
+        }
+
+        .step-indicator {
+            background: var(--neon-green);
+            color: black;
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-weight: 900;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+
+        /* RGPD Notice */
+        .privacy-notice {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.4);
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .booking-card { padding: 1.5rem; }
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-7">
+                
+                <a href="#" class="back-link">
+                    <i class="fas fa-arrow-left me-2"></i> Retour à l'accueil
+                </a>
+
+                <div class="booking-card animate__animated animate__fadeInUp">
+                    <div class="text-center mb-5">
+                        <span class="step-indicator">ÉTAPE 1/1</span>
+                        <h1 class="mb-3">RÉSERVE TA <span style="color: var(--neon-green)">SÉANCE</span></h1>
+                        <p class="opacity-75">Remplis tes infos et prépare-toi à bouger. <br>Confirmation instantanée par email.</p>
+                    </div>
+
+                    <form id="bookingForm">
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <label for="firstName" class="form-label">
+                                    <i class="fas fa-user"></i> Prénom
+                                </label>
+                                <input type="text" class="form-control" id="firstName" placeholder="Ex: Lucas" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="lastName" class="form-label">
+                                    <i class="fas fa-id-card"></i> Nom
+                                </label>
+                                <input type="text" class="form-control" id="lastName" placeholder="Ex: Dupont" required>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="email" class="form-label">
+                                    <i class="fas fa-envelope"></i> Email Étudiant (@univ-...)
+                                </label>
+                                <input type="email" class="form-control" id="email" placeholder="lucas.dupont@etu.univ.fr" required>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="course" class="form-label">
+                                    <i class="fas fa-dumbbell"></i> Choisis ton mood
+                                </label>
+                                <select class="form-select" id="course" required>
+                                    <option value="" selected disabled>Sélectionne une discipline...</option>
+                                    <option value="skating">⛸️ Patinage artistique (8€)</option>
+                                    <option value="dance">💃 Danse Urbaine (6€)</option>
+                                    <option value="running">🏃 Coaching course à pied (5€)</option>
+                                    <option value="pilates">🧘 Pilates Focus (7€)</option>
+                                </select>
+                            </div>
+
+                            <div class="col-12 mt-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="rgpdConsent" required>
+                                    <label class="form-check-label small" for="rgpdConsent">
+                                        J'accepte que mes données soient utilisées uniquement dans le cadre de la réservation de cours.
+                                    </label>
+                                </div>
+                                <p class="privacy-notice">
+                                    <i class="fas fa-shield-halved me-1"></i> Vos données personnelles sont chiffrées et ne seront jamais partagées avec des tiers.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-payment">
+                                <i class="fas fa-credit-card me-2"></i> Procéder au paiement et confirmer ma séance
+                            </button>
+                            <div class="mt-3 opacity-50 small">
+                                <i class="fab fa-stripe me-2"></i>
+                                <i class="fab fa-apple-pay me-2"></i>
+                                <i class="fab fa-google-pay"></i>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="text-center mt-4 opacity-50 small">
+                    © 2026 STUDENTMOVE. Réservation 100% sécurisée.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('bookingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Redirection vers Stripe...';
+            btn.style.opacity = '0.7';
+            setTimeout(() => {
+                alert('Félicitations ! Redirection vers la plateforme de paiement sécurisée...');
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
