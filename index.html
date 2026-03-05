@@ -3,289 +3,272 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STUDENT MOVE | Le sport sans se ruiner</title>
+    <title>MOVE IT | Le sport qui match avec ta vie d'étudiant</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-    <script src="https://unpkg.com/scrollreveal"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
         :root {
-            --primary-gradient: linear-gradient(135deg, #FF3CAC 0%, #784BA0 50%, #2B86C5 100%);
-            --neon-green: #ADFF2F;
-            --dark-bg: #0a0a0a;
-            --glass: rgba(255, 255, 255, 0.1);
+            --primary-glow: #00ff88;
+            --secondary-glow: #bc13fe;
+            --dark-bg: #0a0a0c;
+            --glass: rgba(255, 255, 255, 0.05);
+            --gradient: linear-gradient(135deg, #00ff88 0%, #bc13fe 100%);
         }
 
         body {
-            font-family: 'Outfit', sans-serif;
             background-color: var(--dark-bg);
-            color: white;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
             overflow-x: hidden;
+            margin: 0;
         }
 
-        h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; }
+        h1, h2, h3, .navbar-brand {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+        }
 
-        /* --- Custom UI Components --- */
+        /* --- Floating Background Layer --- */
+        #emoji-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .floating-emoji {
+            position: absolute;
+            user-select: none;
+            opacity: 0.15;
+            will-change: transform;
+            animation: float-around infinite ease-in-out;
+        }
+
+        .size-sm { font-size: 1.5rem; filter: blur(1px) opacity(0.1); }
+        .size-md { font-size: 2.5rem; filter: opacity(0.15); }
+        .size-lg { font-size: 4rem; filter: blur(0.5px) opacity(0.12); }
+
+        @keyframes float-around {
+            0% { transform: translateY(0) rotate(0deg); }
+            33% { transform: translateY(-40px) translateX(20px) rotate(15deg); }
+            66% { transform: translateY(30px) translateX(-20px) rotate(-15deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+
+        /* --- Design Components --- */
         .glass-card {
             background: var(--glass);
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 24px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .glass-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            border-color: var(--neon-green);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            border-color: var(--primary-glow);
+            transform: translateY(-5px);
         }
 
-        .btn-glow {
-            background: var(--primary-gradient);
-            color: white;
-            border: none;
-            padding: 16px 32px;
-            border-radius: 50px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: 0.3s;
-            box-shadow: 0 0 20px rgba(120, 75, 160, 0.5);
-        }
-
-        .btn-glow:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(173, 255, 47, 0.6);
-            color: white;
-        }
-
-        .badge-student {
-            background: var(--neon-green);
-            color: black;
-            font-weight: 900;
-            padding: 5px 15px;
-            border-radius: 10px;
-            transform: rotate(-3deg);
-            display: inline-block;
-        }
-
-        /* --- Sections --- */
-        .hero-section {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            background: radial-gradient(circle at top right, rgba(120, 75, 160, 0.2), transparent);
-            padding-top: 100px;
-        }
-
-        .sport-icon {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            background: var(--primary-gradient);
+        .text-gradient {
+            background: var(--gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .price-tag {
-            font-size: 1.5rem;
-            font-weight: 900;
-            color: var(--neon-green);
+        .btn-glow {
+            background: var(--gradient);
+            border: none;
+            color: white;
+            padding: 18px 35px;
+            border-radius: 50px;
+            font-weight: 700;
+            box-shadow: 0 0 20px rgba(188, 19, 254, 0.4);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
         }
 
-        /* --- Navbar --- */
+        .btn-glow:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(0, 255, 136, 0.6);
+            color: white;
+        }
+
         .navbar {
-            background: rgba(10, 10, 10, 0.8) !important;
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            background: rgba(10, 10, 12, 0.8);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        /* --- Floating Background Layer --- */
-#emoji-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1; /* Keeps it behind all content */
-    overflow: hidden;
-    pointer-events: none; /* User can click through to buttons */
-    background: var(--dark-bg);
-}
+        /* --- Sports Cards --- */
+        .sport-card {
+            overflow: hidden;
+            position: relative;
+            height: 450px;
+        }
 
-.floating-emoji {
-    position: absolute;
-    user-select: none;
-    opacity: 0.15; /* Subtle enough not to distract */
-    filter: saturate(1.2);
-    will-change: transform;
-    animation: float-around infinite ease-in-out;
-}
+        .sport-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(30%) brightness(0.6);
+            transition: 0.6s ease;
+        }
 
-/* Different sizes for depth perception */
-.size-sm { font-size: 1.5rem; filter: blur(1px) opacity(0.1); }
-.size-md { font-size: 2.5rem; filter: opacity(0.15); }
-.size-lg { font-size: 4rem; filter: blur(0.5px) opacity(0.12); }
+        .sport-card:hover img {
+            filter: grayscale(0%) brightness(0.9);
+            transform: scale(1.1);
+        }
 
-@keyframes float-around {
-    0% {
-        transform: translateY(0) rotate(0deg);
-    }
-    33% {
-        transform: translateY(-30px) translateX(20px) rotate(10deg);
-    }
-    66% {
-        transform: translateY(20px) translateX(-20px) rotate(-10deg);
-    }
-    100% {
-        transform: translateY(0) rotate(0deg);
-    }
-}
+        .sport-overlay {
+            position: absolute;
+            bottom: 0;
+            padding: 30px;
+            width: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 30%, transparent);
+        }
 
+        .badge-student {
+            background: rgba(0, 255, 136, 0.15);
+            color: var(--primary-glow);
+            border: 1px solid var(--primary-glow);
+            padding: 6px 18px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
 
-      </script>
+    <div id="emoji-background"></div>
 
-    <script>
-    const background = document.getElementById('emoji-background');
-    const emojis = ['⛸️', '🩰', '🏃', '💪', '🧘', '🎧', '⭐', '⚡'];
-    const count = 25; // Number of floating elements
-
-    for (let i = 0; i < count; i++) {
-        const div = document.createElement('div');
-        const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
-        
-        div.className = 'floating-emoji';
-        div.innerText = randomEmoji;
-        
-        // Randomize sizes
-        const sizes = ['size-sm', 'size-md', 'size-lg'];
-        div.classList.add(sizes[Math.floor(Math.random() * sizes.length)]);
-        
-        // Randomize Position
-        div.style.left = Math.random() * 100 + 'vw';
-        div.style.top = Math.random() * 100 + 'vh';
-        
-        // Randomize Animation Speed & Delay
-        const duration = 15 + Math.random() * 20; // Between 15s and 35s
-        const delay = Math.random() * -20; // Random start point so they aren't synced
-        
-        div.style.animationDuration = ${duration}s;
-        div.style.animationDelay = ${delay}s;
-        
-        background.appendChild(div);
-    }
-</script>
-
-    <div id="emoji-background">
-    </div>
-
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
-            <a class="navbar-brand fw-bold fs-3" href="#">STUDENT<span style="color: var(--neon-green)">MOVE.</span></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+            <a class="navbar-brand text-gradient fs-3" href="#">MOVE IT.</a>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center">
-                    <li class="nav-item"><a class="nav-link mx-2" href="#concept">Le Concept</a></li>
-                    <li class="nav-item"><a class="nav-link mx-2" href="#classes">Nos Séances</a></li>
-                    <li class="nav-item"><a class="nav-link mx-2" href="#faq">FAQ</a></li>
-                    <li class="nav-item ms-lg-4">
-                        <a href="#booking" class="btn btn-sm btn-glow">Réserver</a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link px-3" href="#concept">Le Concept</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="#sports">Activités</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="#faq">FAQ</a></li>
+                    <li class="nav-item ms-lg-3"><a class="btn btn-outline-light rounded-pill px-4" href="#">Login</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <section class="hero-section">
-        <div class="container text-center">
-            <div class="animate__animated animate__fadeInDown">
-                <span class="badge-student mb-3 text-uppercase">Offre Exclusive : -50% avec ta carte étudiante</span>
-                <h1 class="display-1 fw-black mb-4">TON GYM, <br><span style="color: var(--neon-green)">TON BUDGET,</span> TES RÈGLES.</h1>
-                <p class="lead mb-5 mx-auto opacity-75" style="max-width: 700px;">
-                    Marre des abonnements hors de prix ? Accède aux meilleurs coachs de ta ville avec des créneaux flexibles adaptés à ton emploi du temps de ministre.
-                </p>
-                <div class="d-flex flex-column flex-sm-row justify-content-center gap-3">
-                    <a href="#classes" class="btn btn-glow btn-lg">Je réserve ma séance</a>
-                    <a href="#concept" class="btn btn-outline-light btn-lg rounded-pill">Comment ça marche ?</a>
-                </div>
-            </div>
+    <header class="container text-center" style="padding: 180px 0 100px;">
+        <div class="badge-student mb-4" data-aos="fade-down">Offre Spéciale : -50% avec ta carte étudiante 🪪</div>
+        <h1 class="display-1 mb-4" data-aos="zoom-in">Ton corps.<br><span class="text-gradient">Ton budget.</span></h1>
+        <p class="lead mb-5 mx-auto opacity-75 fs-4" style="max-width: 800px;" data-aos="fade-up" data-aos-delay="100">
+            Le sport premium à prix mini. Plus besoin de choisir entre ton loyer et ta santé. Réserve ta séance en 2 clics entre deux cours.
+        </p>
+        <div data-aos="fade-up" data-aos-delay="200">
+            <a href="#sports" class="btn btn-glow btn-lg px-5">Je réserve ma séance et je profite des avantages étudiants</a>
         </div>
-    </section>
+        <div class="mt-4 opacity-50 small">⚡ Pas d'abonnement caché. Pas d'engagement. Que du plaisir.</div>
+    </header>
 
     <section id="concept" class="py-5">
-        <div class="container py-5">
-            <div class="row align-items-center g-5">
-                <div class="col-lg-6 reveal-left">
-                    <h2 class="display-4 mb-4">Zéro engagement. <br><span class="text-gradient">100% Flexibilité.</span></h2>
-                    <p class="text-secondary fs-5">On sait que ta vie change toutes les semaines. Entre les partiels, les soirées et les cours de 8h, StudentMove s'adapte à toi.</p>
-                    <ul class="list-unstyled mt-4">
-                        <li class="mb-3 fs-5"><i class="fa-solid fa-check-circle text-success me-2"></i> Réserve à l'unité ou par pack</li>
-                        <li class="mb-3 fs-5"><i class="fa-solid fa-check-circle text-success me-2"></i> Créneaux midi, soir et week-end</li>
-                        <li class="mb-3 fs-5"><i class="fa-solid fa-check-circle text-success me-2"></i> Tarifs divisés par 2 pour les étudiants</li>
-                    </ul>
-                </div>
-                <div class="col-lg-6 reveal-right">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-4" data-aos="fade-up">
                     <div class="glass-card p-5 text-center">
-                        <h3 class="mb-4">Places limitées ce mois-ci !</h3>
-                        <div class="progress mb-4" style="height: 10px; background: rgba(255,255,255,0.1);">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 85%; background: var(--primary-gradient);"></div>
-                        </div>
-                        <p class="small text-uppercase">85% des créneaux de la semaine sont déjà réservés</p>
+                        <div class="mb-4"><i class="bi bi-lightning-charge-fill display-4 text-gradient"></i></div>
+                        <h4>Ultra Flexible</h4>
+                        <p class="opacity-75">Cours le matin, le soir ou le weekend. On s'adapte à ton emploi du temps de ministre.</p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="glass-card p-5 text-center">
+                        <div class="mb-4"><i class="bi bi-piggy-bank-fill display-4 text-gradient"></i></div>
+                        <h4>Budget Friendly</h4>
+                        <p class="opacity-75">Moins cher qu'un menu fast-food, pour des infrastructures de qualité olympique.</p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="glass-card p-5 text-center">
+                        <div class="mb-4"><i class="bi bi-people-fill display-4 text-gradient"></i></div>
+                        <h4>Vibe Étudiante</h4>
+                        <p class="opacity-75">Rejoins une communauté qui te ressemble. Fais-toi des potes tout en transpirant.</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="classes" class="py-5">
+    <section id="sports" class="py-5">
         <div class="container">
-            <div class="text-center mb-5">
-                <h2 class="display-3">CHOISIS TON <span style="color: var(--neon-green)">MOOD.</span></h2>
-                <p class="text-secondary">Des séances intenses pour décompresser après les cours.</p>
+            <div class="d-flex justify-content-between align-items-end mb-5">
+                <div>
+                    <h2 class="display-4">Nos <span class="text-gradient">Best-Sellers</span></h2>
+                    <p class="opacity-50">Les activités préférées de la communauté</p>
+                </div>
+                <span class="badge rounded-pill bg-secondary px-3 py-2 mb-3">4.9/5 ⭐ Avis Google</span>
             </div>
             
             <div class="row g-4">
-                <div class="col-md-6 col-lg-3 reveal-up">
-                    <div class="glass-card p-4 h-100 text-center">
-                        <i class="fa-solid fa-person-skating sport-icon"></i>
-                        <h3>Patinage Artistique</h3>
-                        <p class="small opacity-75">Domine la glace avec style. Parfait pour l'équilibre et le gainage.</p>
-                        <div class="price-tag mb-3">8€ <small class="text-decoration-line-through text-muted fs-6">16€</small></div>
-                        <button class="btn btn-outline-light w-100 rounded-pill">Réserver</button>
+                <div class="col-md-6 col-lg-3" data-aos="zoom-in-up">
+                    <div class="glass-card sport-card">
+                        <img src="https://images.unsplash.com/photo-1517177324410-09026402860d?auto=format&fit=crop&q=80&w=800" alt="Patinage">
+                        <div class="sport-overlay">
+                            <h4>Patinage Artistique</h4>
+                            <p class="small opacity-75">Maîtrise la glace avec élégance.</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="fw-bold text-gradient">À partir de 5€</span>
+                                <button class="btn btn-sm btn-outline-light rounded-pill">Book it</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-lg-3 reveal-up" style="transition-delay: 0.1s;">
-                    <div class="glass-card p-4 h-100 text-center">
-                        <i class="fa-solid fa-bolt sport-icon"></i>
-                        <h3>Danse Urbaine</h3>
-                        <p class="small opacity-75">Lâche-toi sur les derniers sons. Cardio et fun garantis à 100%.</p>
-                        <div class="price-tag mb-3">6€ <small class="text-decoration-line-through text-muted fs-6">12€</small></div>
-                        <button class="btn btn-outline-light w-100 rounded-pill">Réserver</button>
+                <div class="col-md-6 col-lg-3" data-aos="zoom-in-up" data-aos-delay="100">
+                    <div class="glass-card sport-card">
+                        <img src="https://images.unsplash.com/photo-1535525153412-5a42439a210d?auto=format&fit=crop&q=80&w=800" alt="Danse">
+                        <div class="sport-overlay">
+                            <h4>Danse Moderne</h4>
+                            <p class="small opacity-75">Exprime-toi sur les meilleurs sons.</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="fw-bold text-gradient">À partir de 4€</span>
+                                <button class="btn btn-sm btn-outline-light rounded-pill">Book it</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-lg-3 reveal-up" style="transition-delay: 0.2s;">
-                    <div class="glass-card p-4 h-100 text-center">
-                        <i class="fa-solid fa-person-running sport-icon"></i>
-                        <h3>Coaching Running</h3>
-                        <p class="small opacity-75">Session de groupe en extérieur. Améliore ton endurance avec la team.</p>
-                        <div class="price-tag mb-3">5€ <small class="text-decoration-line-through text-muted fs-6">10€</small></div>
-                        <button class="btn btn-outline-light w-100 rounded-pill">Réserver</button>
+                <div class="col-md-6 col-lg-3" data-aos="zoom-in-up" data-aos-delay="200">
+                    <div class="glass-card sport-card">
+                        <img src="https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?auto=format&fit=crop&q=80&w=800" alt="Running">
+                        <div class="sport-overlay">
+                            <h4>Run Coaching</h4>
+                            <p class="small opacity-75">Explose ton cardio en équipe.</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="fw-bold text-gradient">À partir de 3€</span>
+                                <button class="btn btn-sm btn-outline-light rounded-pill">Book it</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-lg-3 reveal-up" style="transition-delay: 0.3s;">
-                    <div class="glass-card p-4 h-100 text-center">
-                        <i class="fa-solid fa-spa sport-icon"></i>
-                        <h3>Pilates Focus</h3>
-                        <p class="small opacity-75">Renforcement profond et posture. Idéal pour ceux qui passent trop de temps assis en amphi.</p>
-                        <div class="price-tag mb-3">7€ <small class="text-decoration-line-through text-muted fs-6">14€</small></div>
-                        <button class="btn btn-outline-light w-100 rounded-pill">Réserver</button>
+                <div class="col-md-6 col-lg-3" data-aos="zoom-in-up" data-aos-delay="300">
+                    <div class="glass-card sport-card">
+                        <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&q=80&w=800" alt="Pilates">
+                        <div class="sport-overlay">
+                            <h4>Pilates Core</h4>
+                            <p class="small opacity-75">Posture et force profonde.</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="fw-bold text-gradient">À partir de 6€</span>
+                                <button class="btn btn-sm btn-outline-light rounded-pill">Book it</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -293,29 +276,29 @@
     </section>
 
     <section id="faq" class="py-5">
-        <div class="container py-5">
-            <h2 class="text-center mb-5">Des questions ? On a les <span style="color: var(--neon-green)">réponses.</span></h2>
+        <div class="container">
             <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <div class="accordion accordion-flush" id="faqAccordion">
+                <div class="col-lg-7">
+                    <h2 class="text-center mb-5">Le coin des <span class="text-gradient">curieux</span></h2>
+                    <div class="accordion accordion-flush glass-card p-3" id="faqAccordion">
                         <div class="accordion-item bg-transparent text-white border-bottom border-secondary">
                             <h2 class="accordion-header">
-                                <button class="accordion-button bg-transparent text-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q1">
-                                    Comment prouver que je suis étudiant ?
+                                <button class="accordion-button collapsed bg-transparent text-white shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#q1">
+                                    Quels justificatifs dois-je fournir ?
                                 </button>
                             </h2>
                             <div id="q1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                                <div class="accordion-body opacity-75">Il suffit de télécharger une photo de ta carte étudiante ou de ton certificat de scolarité lors de ta première réservation. C'est instantané !</div>
+                                <div class="accordion-body opacity-75">Ta carte étudiante en cours de validité ou un certificat de scolarité suffit !</div>
                             </div>
                         </div>
                         <div class="accordion-item bg-transparent text-white border-bottom border-secondary">
                             <h2 class="accordion-header">
-                                <button class="accordion-button bg-transparent text-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q2">
-                                    Puis-je annuler ma séance ?
+                                <button class="accordion-button collapsed bg-transparent text-white shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#q2">
+                                    C'est vraiment sans engagement ?
                                 </button>
                             </h2>
                             <div id="q2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                                <div class="accordion-body opacity-75">Oui, l'annulation est gratuite jusqu'à 12h avant la séance. On sait ce que c'est, un imprévu ça arrive.</div>
+                                <div class="accordion-body opacity-75">Absolument. Tu payes à la séance ou tu prends un pass mois sans tacite reconduction. Liberté totale.</div>
                             </div>
                         </div>
                     </div>
@@ -324,29 +307,58 @@
         </div>
     </section>
 
-    <section id="booking" class="py-5 text-center">
-        <div class="container py-5 glass-card">
-            <h2 class="display-4 fw-bold mb-4">PRÊT À BOUGER ?</h2>
-            <p class="fs-5 mb-5 opacity-75">Rejoins la plus grande communauté de sportifs étudiants de ta ville.</p>
-            <a href="#" class="btn btn-glow btn-lg px-5">Je réserve ma séance et je profite des avantages étudiants</a>
-            <div class="mt-4">
-                <span class="small opacity-50"><i class="fa-solid fa-lock me-2"></i> Paiement 100% sécurisé via Stripe/Apple Pay</span>
-            </div>
+    <section class="py-5 text-center mt-5 mb-5">
+        <div class="container py-5 glass-card" style="background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=1200'); background-size: cover; background-position: center;" data-aos="zoom-in">
+            <h2 class="display-4 mb-4">Prêt à changer ta routine ?</h2>
+            <p class="mb-5 fs-5">Inscris-toi maintenant et ta 1ère séance est 100% offerte.</p>
+            <a href="#" class="btn btn-glow btn-lg px-5">Commencer l'expérience</a>
         </div>
     </section>
 
-    <footer class="py-4 border-top border-secondary mt-5">
+    <footer class="py-5 border-top border-secondary">
         <div class="container text-center">
-            <p class="small text-secondary mb-0">© 2026 STUDENTMOVE. Fait avec passion pour la Gen Z.</p>
+            <h3 class="text-gradient mb-4">MOVE IT.</h3>
+            <div class="d-flex justify-content-center gap-4 mb-4 fs-4">
+                <i class="bi bi-instagram"></i>
+                <i class="bi bi-tiktok"></i>
+                <i class="bi bi-twitter-x"></i>
+            </div>
+            <p class="small opacity-50">&copy; 2026 MOVE IT Technologies. Développé pour la Gen Z.</p>
         </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // Animations au scroll
-        ScrollReveal().reveal('.reveal-up', { distance: '50px', duration: 1000, origin: 'bottom', interval: 100 });
-        ScrollReveal().reveal('.reveal-left', { distance: '50px', duration: 1000, origin: 'left' });
-        ScrollReveal().reveal('.reveal-right', { distance: '50px', duration: 1000, origin: 'right' });
-    
+        // Init Animations
+        AOS.init({ duration: 1000, once: true });
+
+        // Generate Floating Emojis
+        const background = document.getElementById('emoji-background');
+        const emojis = ['⛸️', '🩰', '🏃', '💪', '🧘', '🎧', '⭐', '⚡', '🔥'];
+        const count = 25;
+
+        for (let i = 0; i < count; i++) {
+            const div = document.createElement('div');
+            const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+            
+            div.className = 'floating-emoji';
+            div.innerText = randomEmoji;
+            
+            const sizes = ['size-sm', 'size-md', 'size-lg'];
+            div.classList.add(sizes[Math.floor(Math.random() * sizes.length)]);
+            
+            div.style.left = Math.random() * 100 + 'vw';
+            div.style.top = Math.random() * 100 + 'vh';
+            
+            const duration = 15 + Math.random() * 20;
+            const delay = Math.random() * -20;
+            
+            div.style.animationDuration = `${duration}s`;
+            div.style.animationDelay = `${delay}s`;
+            
+            background.appendChild(div);
+        }
+    </script>
 </body>
 </html>
