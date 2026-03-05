@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paiement Sécurisé | STUDENT MOVE</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <style>
+        :root {
+            --bg-deep: #050505;
+            --neon-green: #ADFF2F;
+            --accent-purple: #784BA0;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --gradient: linear-gradient(135deg, #FF3CAC 0%, #784BA0 50%, #2B86C5 100%);
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: #ffffff;
+            font-family: 'Outfit', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            /* Subtiles lueurs de fond */
+            background-image: 
+                radial-gradient(circle at 10% 10%, rgba(120, 75, 160, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(173, 255, 47, 0.05) 0%, transparent 40%);
+        }
+
+        h1, h2 { font-family: 'Space Grotesk', sans-serif; }
+
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        /* --- Summary Section --- */
+        .summary-badge {
+            background: rgba(173, 255, 47, 0.1);
+            color: var(--neon-green);
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding-bottom: 0.8rem;
+        }
+
+        /* --- Stripe Element Styling --- */
+        #card-element {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        #card-element--focus {
+            border-color: var(--neon-green);
+            box-shadow: 0 0 0 2px rgba(173, 255, 47, 0.2);
+        }
+
+        .form-label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 8px;
+        }
+
+        input.form-control {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            color: white;
+            border-radius: 12px;
+            padding: 12px;
+        }
+
+        input.form-control:focus {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--neon-green);
+            box-shadow: none;
+            color: white;
+        }
+
+        /* --- GDPR & Trust --- */
+        .gdpr-text {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.5);
+            line-height: 1.4;
+        }
+
+        .payment-icons {
+            opacity: 0.6;
+            filter: grayscale(1) invert(1);
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        /* --- Button --- */
+        .btn-pay {
+            background: var(--gradient);
+            border: none;
+            border-radius: 16px;
+            padding: 18px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 25px rgba(120, 75, 160, 0.3);
+        }
+
+        .btn-pay:hover {
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: 0 15px 35px rgba(255, 60, 172, 0.4);
+            color: white;
+        }
+
+        .btn-pay:active { transform: scale(0.98); }
+
+        .btn-pay:disabled {
+            filter: grayscale(1);
+            cursor: not-allowed;
+        }
+
+        #card-errors {
+            color: #ff5f5f;
+            font-size: 0.85rem;
+            margin-top: 10px;
+        }
+
+        /* --- Animations --- */
+        .fade-in {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .loader {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            
+            <div class="text-center mb-5 fade-in">
+                <h1 class="display-5 fw-bold mb-2">Paiement <span style="color:var(--neon-green)">Sécurisé</span></h1>
+                <p class="opacity-50">Finalise ta réservation pour confirmer ta séance.</p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-4 fade-in" style="animation-delay: 0.1s;">
+                    <div class="glass-card h-100">
+                        <h5 class="mb-4 d-flex align-items-center">
+                            <i class="fas fa-shopping-cart me-2" style="color:var(--neon-green)"></i> Récapitulatif
+                        </h5>
+                        
+                        <div class="summary-item">
+                            <span class="opacity-50">Cours</span>
+                            <span class="fw-bold">Patinage Artistique</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="opacity-50">Coach</span>
+                            <span class="fw-bold">Sarah</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="opacity-50">Durée</span>
+                            <span class="fw-bold">1 Heure</span>
+                        </div>
+                        
+                        <div class="mt-4 p-3 rounded-4" style="background: rgba(255,255,255,0.03);">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="fw-bold">Total</span>
+                                <span class="h4 mb-0 fw-black" style="color:var(--neon-green)">8.00€</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <span class="summary-badge">Session Étudiante</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-8 fade-in" style="animation-delay: 0.2s;">
+                    <div class="glass-card">
+                        <form id="payment-form">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label class="form-label" for="cardholder-name">Nom complet du titulaire</label>
+                                    <input type="text" id="cardholder-name" class="form-control" placeholder="Jean Dupont" required>
+                                </div>
+
+                                <div class="col-12">
+                                    <label class="form-label">Détails de la carte</label>
+                                    <div id="card-element">
+                                        </div>
+                                    <div id="card-errors" role="alert"></div>
+                                </div>
+
+                                <div class="col-12 mt-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input shadow-none" type="checkbox" id="gdpr-check" required>
+                                        <label class="form-check-label gdpr-text" for="gdpr-check">
+                                            J'accepte que mes données personnelles soient utilisées uniquement pour la gestion de ma réservation conformément à la <a href="#" class="text-white">politique de confidentialité</a>.
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="p-3 rounded-3 mt-2 d-flex align-items-center" style="background: rgba(173, 255, 47, 0.05);">
+                                        <i class="fas fa-lock me-3" style="color:var(--neon-green)"></i>
+                                        <span class="small opacity-75">Vos données de paiement sont cryptées et traitées de manière 100% sécurisée.</span>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 mt-4">
+                                    <button class="btn btn-pay w-100 d-flex align-items-center justify-content-center" id="submit-button">
+                                        <div class="loader" id="loader"></div>
+                                        <span id="button-text">Payer et confirmer ma séance</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <div class="payment-icons mt-5">
+                            <i class="fab fa-cc-stripe fa-2x"></i>
+                            <i class="fab fa-apple-pay fa-2x"></i>
+                            <i class="fab fa-google-pay fa-2x"></i>
+                            <i class="fab fa-cc-visa fa-2x"></i>
+                            <i class="fab fa-cc-mastercard fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-5 opacity-25 small">
+                © 2026 STUDENT MOVE — Powered by Stripe.
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 1. Initialisation de Stripe
+    // REMPLACER PAR VOTRE CLÉ PUBLIQUE STRIPE
+    const stripe = Stripe('YOUR_STRIPE_PUBLIC_KEY');
+    const elements = stripe.elements();
+
+    // 2. Custom Styling pour Stripe Element (pour correspondre au Dark Mode)
+    const style = {
+        base: {
+            color: '#ffffff',
+            fontFamily: '"Outfit", sans-serif',
+            fontSmoothing: 'antialiased',
+            fontSize: '16px',
+            '::placeholder': {
+                color: 'rgba(255, 255, 255, 0.3)'
+            },
+            iconColor: '#ADFF2F'
+        },
+        invalid: {
+            color: '#ff5f5f',
+            iconColor: '#ff5f5f'
+        }
+    };
+
+    const card = elements.create('card', { style: style, hidePostalCode: true });
+    card.mount('#card-element');
+
+    // 3. Gestion des erreurs en temps réel
+    card.on('change', function(event) {
+        const displayError = document.getElementById('card-errors');
+        if (event.error) {
+            displayError.textContent = event.error.message;
+        } else {
+            displayError.textContent = '';
+        }
+    });
+
+    // 4. Soumission du paiement
+    const form = document.getElementById('payment-form');
+    const btn = document.getElementById('submit-button');
+    const loader = document.getElementById('loader');
+    const btnText = document.getElementById('button-text');
+
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        
+        // UI State: Loading
+        btn.disabled = true;
+        loader.style.display = 'block';
+        btnText.textContent = 'Traitement en cours...';
+
+        const { paymentMethod, error } = await stripe.createPaymentMethod({
+            type: 'card',
+            card: card,
+            billing_details: {
+                name: document.getElementById('cardholder-name').value,
+            },
+        });
+
+        if (error) {
+            // Afficher l'erreur à l'utilisateur
+            const errorElement = document.getElementById('card-errors');
+            errorElement.textContent = error.message;
+            
+            // Reset UI
+            btn.disabled = false;
+            loader.style.display = 'none';
+            btnText.textContent = 'Payer et confirmer ma séance';
+        } else {
+            // Envoyer paymentMethod.id à votre serveur backend (PHP, Node, Python)
+            console.log('Success PaymentMethod ID:', paymentMethod.id);
+            
+            // Simulation de succès pour la démo
+            setTimeout(() => {
+                window.location.href = 'success.html'; 
+            }, 2000);
+        }
+    });
+</script>
+
+</body>
+</html>
