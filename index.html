@@ -148,6 +148,9 @@
 </head>
 <body>
 
+    <div id="emoji-background">
+    </div>
+
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container">
             <a class="navbar-brand fw-bold fs-3" href="#">STUDENT<span style="color: var(--neon-green)">MOVE.</span></a>
@@ -312,5 +315,37 @@
         ScrollReveal().reveal('.reveal-left', { distance: '50px', duration: 1000, origin: 'left' });
         ScrollReveal().reveal('.reveal-right', { distance: '50px', duration: 1000, origin: 'right' });
     </script>
+
+    <script>
+    const background = document.getElementById('emoji-background');
+    const emojis = ['⛸️', '🩰', '🏃', '💪', '🧘', '🎧', '⭐', '⚡'];
+    const count = 25; // Number of floating elements
+
+    for (let i = 0; i < count; i++) {
+        const div = document.createElement('div');
+        const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+        
+        div.className = 'floating-emoji';
+        div.innerText = randomEmoji;
+        
+        // Randomize sizes
+        const sizes = ['size-sm', 'size-md', 'size-lg'];
+        div.classList.add(sizes[Math.floor(Math.random() * sizes.length)]);
+        
+        // Randomize Position
+        div.style.left = Math.random() * 100 + 'vw';
+        div.style.top = Math.random() * 100 + 'vh';
+        
+        // Randomize Animation Speed & Delay
+        const duration = 15 + Math.random() * 20; // Between 15s and 35s
+        const delay = Math.random() * -20; // Random start point so they aren't synced
+        
+        div.style.animationDuration = ${duration}s;
+        div.style.animationDelay = ${delay}s;
+        
+        background.appendChild(div);
+    }
+</script>
+    
 </body>
 </html>
