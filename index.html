@@ -102,6 +102,48 @@
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
+        /* --- Floating Background Layer --- */
+#emoji-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Keeps it behind all content */
+    overflow: hidden;
+    pointer-events: none; /* User can click through to buttons */
+    background: var(--dark-bg);
+}
+
+.floating-emoji {
+    position: absolute;
+    user-select: none;
+    opacity: 0.15; /* Subtle enough not to distract */
+    filter: saturate(1.2);
+    will-change: transform;
+    animation: float-around infinite ease-in-out;
+}
+
+/* Different sizes for depth perception */
+.size-sm { font-size: 1.5rem; filter: blur(1px) opacity(0.1); }
+.size-md { font-size: 2.5rem; filter: opacity(0.15); }
+.size-lg { font-size: 4rem; filter: blur(0.5px) opacity(0.12); }
+
+@keyframes float-around {
+    0% {
+        transform: translateY(0) rotate(0deg);
+    }
+    33% {
+        transform: translateY(-30px) translateX(20px) rotate(10deg);
+    }
+    66% {
+        transform: translateY(20px) translateX(-20px) rotate(-10deg);
+    }
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+}
+
     </style>
 </head>
 <body>
